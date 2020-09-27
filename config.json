@@ -1,0 +1,6 @@
+{
+	"autoUpdate" : {
+		"enabled" : false,
+		"frequency" : 86400
+	}
+}
