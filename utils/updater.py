@@ -67,6 +67,7 @@ class Updater(commands.Cog):
 
 	@update.error
 	async def update_error(self, ctx, error):
+		print(error)
 		if isinstance(error, TypeError):
 			await ctx.send("This guild does not have a game channel!")
 		elif isinstance(error, commands.CheckFailure):
