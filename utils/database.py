@@ -12,7 +12,7 @@ class Database(commands.Cog):
 		c.execute("INSERT OR REPLACE INTO guilds (guild_id, channel_id) VALUES (?, ?)", [guild_id, channel_id])
 		conn.commit()
 
-	def retrieve_channel(self, guild_id)
+	def retrieve_channel(self, guild_id):
 		return c.execute("SELECT channel_id FROM guilds WHERE guild_id = ?", [guild_id]).fetchone()[0]
 
 def setup(bot):
