@@ -12,4 +12,4 @@ class Updater(commands.Cog):
 		database.add_server("this", "works")
 
 def setup(bot):
-    bot.add_cog(Database(bot))
+    bot.add_cog(Updater(bot))
