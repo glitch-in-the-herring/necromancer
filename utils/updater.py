@@ -1,6 +1,9 @@
+import importlib
 import discord
 import database
 from discord.ext import commands
+
+importlib.import_module("database")
 
 class Updater(commands.Cog):
 	def __init__(self, bot):
