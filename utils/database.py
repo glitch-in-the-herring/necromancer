@@ -1,12 +1,12 @@
 import sqlite3
 from discord.ext import commands
 
+conn = sqlite3.connect("test.db")
+c = conn.cursor()
+
 class Database(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
-
-	conn = sqlite3.connect("../test.db")
-	c = conn.cursor()
 
 	def add_server(self, guild_id, channel_id):
 		c.execute("INSERT OR REPLACE INTO test (guild_id, channel_id) VALUES (?, ?)", [guild_id, channel_id])
