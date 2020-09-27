@@ -53,6 +53,7 @@ class Updater(commands.Cog):
 				current_author = message.author.id
 				first = False
 				database.update_score(guild.id, current_author, 0, 0)
+				print("This is the first message")
 			else:
 				previous_author, current_author = current_author, message.author.id
 				if previous_author != current_author:
@@ -60,6 +61,8 @@ class Updater(commands.Cog):
 					score_delta = current_timestamp - previous_timestamp
 					score = converter.delta_to_secs(score_delta) + database.retrieve_score(guild.id, current_author)
 					database.update_score(guild.id, current_author, score, 0)
+				print("this is not the first message")
+		print("exited the loop")
 		await ctx.send("Successfully updated the channel.")
 
 	@update.error
