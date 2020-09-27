@@ -34,7 +34,7 @@ class Database(commands.Cog):
 
 	# Retrieves the last message in a channel
 	def retrieve_last_message(self, guild_id):
-		try
+		try:
 			return c.execute("SELECT last_message_id FROM guilds WHERE guild_id = ?", [guild_id]).fetchone()[0]
 		except TypeError:
 			return None
