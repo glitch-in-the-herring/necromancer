@@ -8,11 +8,30 @@ class Updater(commands.Cog):
 
 
 	# Checks
+	# Checks if the user invoking the command is an admin
 	def is_admin():
 		async def predicate(ctx):
 			member = ctx.author
 			return member.guild_permissions.administrator or member.guild_permissions.manage_channels	
 		return commands.check(predicate)
+
+
+	# Listeners
+	# Listens for new messages in the game channel
+	@commands.Cog.listener()
+	async def on_message(self, message):
+		database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
+		guild, author = message.guild, message.author
+		channel = retrieve_channel(guild.id)
+		if message.channel == channel:
+			previous_message = await channel.fetch_message(database.retrieve_last_message(guild.id))
+			if previous_message.author != author:
+				score_delta = message.created_at - previous_message.created_at
+				score = converter.delta_to_secs(score_delta) + database.retrieve_score(guild.id, author.id)
+				database.update_score(guild.id, current_author, score, 0)
+				database.update_server(guild.id, channel.id, message.id)
+			else:
+				await message.delete()
 
 
 	# Commands
@@ -25,7 +44,8 @@ class Updater(commands.Cog):
 	@is_admin()
 	async def setchannel(self, ctx, channel: discord.TextChannel):
 		database = self.bot.get_cog("Database")
-		database.add_server(ctx.guild.id, channel.id)
+		database.update_server(ctx.guild.id, channel.id, channel.last_message_id)
+		database.commit()
 		await ctx.send(f"Successfully set <#{channel.id}> as a necromancy channel for this server.")
 
 	@setchannel.error
@@ -54,7 +74,6 @@ class Updater(commands.Cog):
 				current_author = message.author.id
 				first = False
 				database.update_score(guild.id, current_author, 0, 0)
-				print("This is the first message")
 			else:
 				previous_author, current_author = current_author, message.author.id
 				if previous_author != current_author:
@@ -62,8 +81,9 @@ class Updater(commands.Cog):
 					score_delta = current_timestamp - previous_timestamp
 					score = converter.delta_to_secs(score_delta) + database.retrieve_score(guild.id, current_author)
 					database.update_score(guild.id, current_author, score, 0)
-				print("this is not the first message")
-		print("exited the loop")
+
+		database.update_server(guild.id, channel.id, channel.last_message_id)		
+		database.commit()
 		await ctx.send("Successfully updated the channel.")
 
 	@update.error
