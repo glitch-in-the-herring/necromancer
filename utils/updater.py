@@ -22,7 +22,7 @@ class Updater(commands.Cog):
 	async def on_message(self, message):
 		database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
 		guild, author = message.guild, message.author
-		channel = retrieve_channel(guild.id)
+		channel = database.retrieve_channel(guild.id)
 		if message.channel == channel:
 			previous_message = await channel.fetch_message(database.retrieve_last_message(guild.id))
 			if previous_message.author != author:
