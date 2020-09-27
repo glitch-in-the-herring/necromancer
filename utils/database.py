@@ -8,7 +8,7 @@ class Database(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
-	def add_server(guild_id, channel_id):
+	def add_server(self, guild_id, channel_id):
 		c.execute("INSERT OR REPLACE INTO test (guild_id, channel_id) VALUES (?, ?)", [guild_id, channel_id])
 
 def setup(bot):
