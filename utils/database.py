@@ -27,9 +27,9 @@ class Database(commands.Cog):
 
 
 	# Clears an entire guild's score
-	def clear_score(self, guild_id)
+	def clear_score(self, guild_id):
 		c.execute("DELETE FROM scores WHERE guild_id = ?", [guild_id])
-		
+
 
 	# Retrieves the current guild's game channel's ID
 	def retrieve_channel(self, guild_id):
