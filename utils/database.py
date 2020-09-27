@@ -8,7 +8,7 @@ class Database(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
-	def commit():
+	def commit(self):
 		conn.commit()
 
 	# Adds or updates channel_id and guild_id in the guilds table
