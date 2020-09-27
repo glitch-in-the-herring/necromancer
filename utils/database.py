@@ -18,7 +18,7 @@ class Database(commands.Cog):
 	# Adds or updates the score in the guilds table
 	def update_score(self, guild_id, user_id, score, penalty):
 		c.execute("INSERT OR REPLACE INTO scores (guild_id, user_id, score, penalty) VALUES (?, ?, ?, ?)", [guild_id, user_id, score, penalty])
-
+		conn.commit()
 
 	# Retrieves the current guild's game channel's ID
 	def retrieve_channel(self, guild_id):
