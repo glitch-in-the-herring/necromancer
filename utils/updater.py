@@ -48,6 +48,7 @@ class Updater(commands.Cog):
 			if first:
 				# TBD
 				print("this is the first message")
+				first = False
 			else:
 				# TBD
 				print("this is not the first message")
