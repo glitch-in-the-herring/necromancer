@@ -11,6 +11,10 @@ token, prefix = args.token, args.prefix
 
 bot = commands.Bot(command_prefix=prefix)
 
+@commands.Cog.listener()
+async def on_ready():
+	print("Bot has logged in")
+
 @bot.command
 async def load(ctx, extension):
 	bot.load_extension(f"utils.{extension}")
