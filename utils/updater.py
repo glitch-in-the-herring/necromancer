@@ -20,10 +20,12 @@ class Updater(commands.Cog):
 	# Listens for new messages in the game channel
 	@commands.Cog.listener()
 	async def on_message(self, message):
+		print("it probably got past my face")
 		database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
 		guild, author = message.guild, message.author
 		channel = database.retrieve_channel(guild.id)
 		if channel != None and channel == message.channel:
+			print("it probably got past me")
 			previous_message = await channel.fetch_message(database.retrieve_last_message(guild.id))
 			if previous_message.author != author:
 				score_delta = message.created_at - previous_message.created_at
