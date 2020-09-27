@@ -105,4 +105,4 @@ class Updater(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Updater(bot))
+	bot.add_cog(Updater(bot))
