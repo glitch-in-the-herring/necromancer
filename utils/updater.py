@@ -5,7 +5,7 @@ class Updater(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
-	@commands.command
+	@commands.command()
 	async def test(self, ctx):
 		database = self.bot.get_cog("Database")
 		database.add_server("this", "works")
