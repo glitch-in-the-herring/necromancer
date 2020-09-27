@@ -25,13 +25,11 @@ class Updater(commands.Cog):
 		guild, author = message.guild, message.author
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
 		if channel != None and channel == message.channel:
-			print("it probably got past me")
 			previous_message = await channel.fetch_message(database.retrieve_last_message(guild.id))
 			if previous_message.author != author:
 				score_delta = message.created_at - previous_message.created_at
 				score = converter.delta_to_secs(score_delta) + database.retrieve_score(guild.id, author.id)
 				database.update_score(guild.id, author.id, score, 0)
-				print("It probably got past this point")
 				database.update_server(guild.id, channel.id, message.id)
 				database.commit()
 			else:
@@ -73,6 +71,7 @@ class Updater(commands.Cog):
 		database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
 		channel =  guild.get_channel(database.retrieve_channel(guild.id))
 		first = True
+		database.clear_score(guild.id)
 		async for message in channel.history(limit=None, oldest_first=True):
 			if first:
 				current_timestamp = message.created_at

@@ -16,13 +16,20 @@ class Database(commands.Cog):
 		c.execute("INSERT OR REPLACE INTO guilds (guild_id, channel_id, last_message_id) VALUES (?, ?, ?)", [guild_id, channel_id, last_message_id])
 
 
+	# Updates the last message in a game channel
 	def update_last_message(self, guild_id, last_message_id):
 		c.execute("UPDATE guilds SET last_message_id = ? WHERE guild_id = ?", [last_message_id, guild_id])
+
 
 	# Adds or updates the score in the guilds table
 	def update_score(self, guild_id, user_id, score, penalty):
 		c.execute("INSERT OR REPLACE INTO scores (guild_id, user_id, score, penalty) VALUES (?, ?, ?, ?)", [guild_id, user_id, score, penalty])
 
+
+	# Clears an entire guild's score
+	def clear_score(self, guild_id)
+		c.execute("DELETE FROM scores WHERE guild_id = ?", [guild_id])
+		
 
 	# Retrieves the current guild's game channel's ID
 	def retrieve_channel(self, guild_id):
