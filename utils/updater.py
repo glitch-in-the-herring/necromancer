@@ -30,7 +30,7 @@ class Updater(commands.Cog):
 			if previous_message.author != author:
 				score_delta = message.created_at - previous_message.created_at
 				score = converter.delta_to_secs(score_delta) + database.retrieve_score(guild.id, author.id)
-				database.update_score(guild.id, current_author, score, 0)
+				database.update_score(guild.id, author.id, score, 0)
 				print("It probably got past this point")
 				database.update_server(guild.id, channel.id, message.id)
 				database.commit()
