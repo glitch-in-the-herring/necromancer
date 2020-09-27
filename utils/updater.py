@@ -20,7 +20,6 @@ class Updater(commands.Cog):
 	# Listens for new messages in the game channel
 	@commands.Cog.listener()
 	async def on_message(self, message):
-		print("it probably got past my face")
 		database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
 		guild, author = message.guild, message.author
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
@@ -39,7 +38,10 @@ class Updater(commands.Cog):
 	# Listens for messages that are deleted.
 	@commands.Cog.listener()
 	async def on_message_delete(self, message):
-		pass
+		database = self.bot.get_cog("Database")
+		guild, author = message.guild, message.author
+		if message.id == database.retrieve_last_message(guild.id):
+			print("woah buddy that's a no no")
 
 	# Commands
 	# Sets the game channel
