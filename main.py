@@ -5,7 +5,7 @@ description = "Mutes and unmutes everyone in a voice channel"
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-t", "--token", metavar='TOKEN', help="Bot token. Keep this secret")
-parser.add_argument("-p", "--prefix", metavar='PREFIX', default="$", help="Bot prefix. Used to invoke the bot commands. Defaults to $")
+parser.add_argument("-p", "--prefix", metavar='PREFIX', default="^", help="Bot prefix. Used to invoke the bot commands. Defaults to $")
 args = parser.parse_args()
 token, prefix = args.token, args.prefix
 
