@@ -44,8 +44,9 @@ class Updater(commands.Cog):
 	)
 	@is_admin()
 	async def update(self, ctx):
+		guild = ctx.guild
 		database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
-		guild, channel = ctx.guild, guild.get_channel(database.retrieve_channel(guild.id))
+		channel =  guild.get_channel(database.retrieve_channel(guild.id))
 		first = True
 		async for message in channel.history(limit=None, oldest_first=True):
 			if first:
