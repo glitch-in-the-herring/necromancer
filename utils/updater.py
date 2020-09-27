@@ -23,7 +23,7 @@ class Updater(commands.Cog):
 		print("it probably got past my face")
 		database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
 		guild, author = message.guild, message.author
-		channel = database.retrieve_channel(guild.id)
+		channel = guild.get_channel(database.retrieve_channel(guild.id))
 		if channel != None and channel == message.channel:
 			print("it probably got past me")
 			previous_message = await channel.fetch_message(database.retrieve_last_message(guild.id))
