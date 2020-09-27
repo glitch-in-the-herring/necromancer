@@ -39,7 +39,7 @@ class Updater(commands.Cog):
 	# Listens for messages that are deleted.
 	@commands.Cog.listener()
 	async def on_message_delete(self, message):
-
+		pass
 
 	# Commands
 	# Sets the game channel
