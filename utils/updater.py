@@ -14,6 +14,7 @@ class Updater(commands.Cog):
 			return member.guild_permissions.administrator or member.guild_permissions.manage_channels	
 		return commands.check(predicate)
 
+
 	# Commands
 	# Sets the game channel
 	@commands.command(
@@ -31,6 +32,8 @@ class Updater(commands.Cog):
 	async def setchannel_error(self, ctx, error):
 		if isinstance(error, commands.BadArgument):
 			await ctx.send("Please specify a proper channel!")
+		elif isinstance(error, commands.CheckFailure):
+			await ctx.send("You do not have permissions to execute this command!")
 
 
 	# Forces the leaderboard to update
@@ -41,22 +44,30 @@ class Updater(commands.Cog):
 	)
 	@is_admin()
 	async def update(self, ctx):
-		database, guild = self.bot.get_cog("Database"), ctx.guild
-		channel = guild.get_channel(database.retrieve_channel(guild.id))
+		database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
+		guild, channel = ctx.guild, guild.get_channel(database.retrieve_channel(guild.id))
 		first = True
 		async for message in channel.history(limit=None, oldest_first=True):
 			if first:
-				# TBD
-				print("this is the first message")
+				current_timestamp = message.created_at
+				current_author = message.author.id
 				first = False
+				database.update_score(guild.id, current_author, 0, 0)
 			else:
-				# TBD
-				print("this is not the first message")
+				previous_author, current_author = current_author, message.author.id
+				if previous_author != current_author:
+					previous_timestamp, current_timestamp = current_timestamp, message.created_at
+					score_delta = current_timestamp - previous_timestamp
+					score = converter.delta_to_secs(score_delta) + database.retrieve_score(guild.id, current_author)
+					database.update_score(guild.id, current_author, score, 0)
 
 	@update.error
 	async def update_error(self, ctx, error):
 		if isinstance(error, TypeError):
 			await ctx.send("This guild does not have a game channel!")
+		elif isinstance(error, commands.CheckFailure):
+			await ctx.send("You do not have permissions to execute this command!")
+
 
 def setup(bot):
     bot.add_cog(Updater(bot))

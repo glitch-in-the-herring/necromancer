@@ -9,22 +9,23 @@ parser.add_argument("-p", "--prefix", metavar='PREFIX', default="^", help="Bot p
 args = parser.parse_args()
 token, prefix = args.token, args.prefix
 
+
 bot = commands.Bot(command_prefix=prefix)
 
-@commands.Cog.listener()
-async def on_ready():
-	print("Bot has logged in")
 
 @bot.command
 async def load(ctx, extension):
 	bot.load_extension(f"utils.{extension}")
 
+
 @bot.command
 async def unload(ctx, extension):
 	bot.unload_extension(f"utils.{extension}")
 
+
 for filename in os.listdir("./utils"):
 	if filename.endswith(".py"):
 		bot.load_extension(f"utils.{filename[:-3]}")
+
 
 bot.run(token)

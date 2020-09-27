@@ -9,7 +9,7 @@ class Config(commands.Cog):
 		self.bot = bot
 
 	@commands.Cog.listener()
-	async def on_ready():
+	async def on_ready(self):
 		print("Bot has logged in")
 
 	# TBD
