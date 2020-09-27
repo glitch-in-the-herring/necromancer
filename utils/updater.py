@@ -50,6 +50,7 @@ class Updater(commands.Cog):
 
 	@setchannel.error
 	async def setchannel_error(self, ctx, error):
+		print(error)
 		if isinstance(error, commands.BadArgument):
 			await ctx.send("Please specify a proper channel!")
 		elif isinstance(error, commands.CheckFailure):
