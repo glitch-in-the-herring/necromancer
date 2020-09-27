@@ -23,13 +23,14 @@ class Updater(commands.Cog):
 		database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
 		guild, author = message.guild, message.author
 		channel = database.retrieve_channel(guild.id)
-		if message.channel == channel:
+		if channel != None and channel == message.channel:
 			previous_message = await channel.fetch_message(database.retrieve_last_message(guild.id))
 			if previous_message.author != author:
 				score_delta = message.created_at - previous_message.created_at
 				score = converter.delta_to_secs(score_delta) + database.retrieve_score(guild.id, author.id)
 				database.update_score(guild.id, current_author, score, 0)
 				database.update_server(guild.id, channel.id, message.id)
+				database.commit()
 			else:
 				await message.delete()
 
@@ -82,8 +83,8 @@ class Updater(commands.Cog):
 					score_delta = current_timestamp - previous_timestamp
 					score = converter.delta_to_secs(score_delta) + database.retrieve_score(guild.id, current_author)
 					database.update_score(guild.id, current_author, score, 0)
-
-		database.update_server(guild.id, channel.id, channel.last_message_id)		
+					database.update_last_message(guild.id, message.id)	
+	
 		database.commit()
 		await ctx.send("Successfully updated the channel.")
 
