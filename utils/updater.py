@@ -10,7 +10,7 @@ class Updater(commands.Cog):
 		help="Sets the text channel to play Thread Necromancy on. You can only have one channel per server.",
 		brief="Set the server's TNG channel"
 	)
-	async def setchannel(self, ctx, channel: TextChannel):
+	async def setchannel(self, ctx, channel: discord.TextChannel):
 		database = self.bot.get_cog("Database")
 		database.add_server(ctx.guild.id, channel.id)
 		await ctx.send(f"Successfully set <#{channel.id}> as a necromancy channel for this server.")
