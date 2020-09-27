@@ -60,6 +60,7 @@ class Updater(commands.Cog):
 					score_delta = current_timestamp - previous_timestamp
 					score = converter.delta_to_secs(score_delta) + database.retrieve_score(guild.id, current_author)
 					database.update_score(guild.id, current_author, score, 0)
+		await ctx.send("Successfully updated the channel.")
 
 	@update.error
 	async def update_error(self, ctx, error):
