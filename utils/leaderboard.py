@@ -40,7 +40,7 @@ class Leaderboard(commands.Cog):
 					await ctx.send(top10[i][0])
 					leaderboard_embed.add_field(
 						name=num2words(i+1, to="ordinal_num") + " Place:",
-						value=guild.get_member(top10[i][0]).name + "#" + str(guild.get_member(top10[i][0]).discriminator) + ":" + f"{hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}",
+						value=guild.get_member(top10[i][0]).name + "#" + str(guild.get_member(top10[i][0]).discriminator) + ":" + f" {hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}",
 						inline=False
 					)
 					i += 1
