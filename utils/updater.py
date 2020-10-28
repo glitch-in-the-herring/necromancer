@@ -31,7 +31,7 @@ class Updater(commands.Cog):
 					score_delta = created_at - datetime.strptime(previous_timestamp, "%Y-%m-%d %H:%M:%S")
 					score_increase = converter.delta_to_secs(score_delta)
 					score = score_increase + database.retrieve_score(guild.id, author.id)
-					database.update_score(guild.id, author.id, score, score_increase)
+					database.update_score(guild.id, author.id, score)
 					database.update_last_message(guild.id, author.id, created_at.strftime("%Y-%m-%d %H:%M:%S"))
 					database.commit()
 				else:
