@@ -31,7 +31,7 @@ class Leaderboard(commands.Cog):
 					value=f"{hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}"
 				)
 			elif len(args) == 1:
-				upto, i = args[0], 0
+				upto, i = int(args[0]), 0
 				leaderboard_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
 				while i < upto:
 					print("current i:" + str(i))
