@@ -15,7 +15,7 @@ class Database(commands.Cog):
 
 	# Adds or updates channel_id and guild_id in the guilds table
 	def update_server(self, guild_id, channel_id):
-		c.execute("INSERT OR REPLACE INTO guilds (guild_id, channel_id, last_message_id) VALUES (?, ?, ?)", [guild_id, channel_id, last_message_id])
+		c.execute("INSERT OR REPLACE INTO guilds (guild_id, channel_id) VALUES (?, ?)", [guild_id, channel_id])
 
 
 	# Updates the last message in a game channel
