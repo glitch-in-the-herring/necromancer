@@ -26,7 +26,7 @@ class Updater(commands.Cog):
 		if channel != None and channel == message.channel:
 			try:
 				previous_author, previous_timestamp = database.retrieve_last_message(guild.id)
-				if previous_message.author != author:
+				if previous_author != author:
 					score_delta = created_at - datetime.strptime(previous_timestamp, "%Y-%m-%d %H:%M:%S")
 					score_increase = converter.delta_to_secs(score_delta)
 					score = score_increase + database.retrieve_score(guild.id, author.id)
@@ -78,10 +78,12 @@ class Updater(commands.Cog):
 		guild = ctx.guild
 		database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
+		print("channel id " + str(database.retrieve_channel(guild.id)))
 		first = True
 		database.clear_score(guild.id)
 		async for message in channel.history(limit=None, oldest_first=True):
 			if first:
+				print("first message checked")
 				current_timestamp = message.created_at
 				current_author = message.author.id
 				first = False
