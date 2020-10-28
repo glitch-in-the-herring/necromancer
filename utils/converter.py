@@ -5,6 +5,7 @@ class Converter(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
+
 	# Converts a timedelta object into seconds
 	def delta_to_secs(self, delta):
 		return delta.days * 86400 + delta.seconds
