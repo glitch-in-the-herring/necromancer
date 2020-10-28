@@ -35,7 +35,7 @@ class Leaderboard(commands.Cog):
 				leaderboard_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
 				while i < upto:
 					print("current i:" + str(i))
-					print(top10)
+					print(guild.get_member(top10[i][0]))
 					hms_score = converter.secs_to_hms(top10[i][1])
 					await ctx.send(top10[i][0])
 					leaderboard_embed.add_field(

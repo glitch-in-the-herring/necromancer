@@ -10,8 +10,8 @@ args = parser.parse_args()
 token, prefix = args.token, args.prefix
 
 
-bot = commands.Bot(command_prefix=prefix)
-
+bot = commands.Bot(command_prefix=prefix, intents=intents)
+intents = discord.Intents(messages=True, guilds=True, members=True)
 
 @bot.command
 async def load(ctx, extension):
