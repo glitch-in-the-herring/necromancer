@@ -54,7 +54,7 @@ class Updater(commands.Cog):
 	@is_admin()
 	async def setchannel(self, ctx, channel: discord.TextChannel):
 		database = self.bot.get_cog("Database")
-		database.update_server(ctx.guild.id, channel.id, channel.last_message_id)
+		database.update_server(ctx.guild.id, channel.id)
 		database.commit()
 		await ctx.send(f"Successfully set <#{channel.id}> as a necromancy channel for this server.")
 
