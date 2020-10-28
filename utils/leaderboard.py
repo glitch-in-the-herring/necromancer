@@ -28,7 +28,7 @@ class Leaderboard(commands.Cog):
 				leaderboard_embed = discord.Embed(title=num2words(rank, to="ordinal_num") + f" Place: {author.mention}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
 				leaderboard_embed.add_field(
 					name=":stopwatch: Score",
-					value=f"{str(hms_score[0]:02)}:{str(hms_score[1]:02)}:{str(hms_score[2]:02)}"
+					value=f"{hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}"
 				)
 			elif len(args) == 1:
 				upto, i = args[0], 0
@@ -37,7 +37,7 @@ class Leaderboard(commands.Cog):
 					hms_score = converter.secs_to_hms(top10[i][1])
 					leaderboard_embed.add_field(
 						name=num2words(i+1, to=ordinal_num) + " Place:",
-						value=f"{guild.get_member(top10[i][0]).name}#{guild.get_member(top10[i][0]).discriminator}: {str(hms_score[0]:02)}:{str(hms_score[1]:02)}:{str(hms_score[2]:02)}",
+						value=f"{guild.get_member(top10[i][0]).name}#{guild.get_member(top10[i][0]).discriminator}: {hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}",
 						inline=false
 					)
 					i += 1
