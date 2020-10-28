@@ -9,9 +9,8 @@ parser.add_argument("-p", "--prefix", metavar='PREFIX', default="^", help="Bot p
 args = parser.parse_args()
 token, prefix = args.token, args.prefix
 
-
-bot = commands.Bot(command_prefix=prefix, intents=intents)
 intents = discord.Intents(messages=True, guilds=True, members=True)
+bot = commands.Bot(command_prefix=prefix, intents=intents)
 
 @bot.command
 async def load(ctx, extension):
