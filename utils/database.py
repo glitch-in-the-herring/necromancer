@@ -59,10 +59,7 @@ class Database(commands.Cog):
 
 	# Retrieves the top 10 players in the guild
 	def retrieve_top_ten(self, guild_id):
-		try:
-			return c.execute("SELECT user_id, score FROM scores where guild_id = ? ORDER BY score DESC, user_id DESC LIMIT 10", [guild_id])
-		else:
-			return None
+		return c.execute("SELECT user_id, score FROM scores where guild_id = ? ORDER BY score DESC, user_id DESC LIMIT 10", [guild_id])
 
 
 def setup(bot):
