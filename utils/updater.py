@@ -85,7 +85,7 @@ class Updater(commands.Cog):
 				current_timestamp = message.created_at
 				current_author = message.author.id
 				first = False
-				database.update_score(guild.id, current_author, 0, 0)
+				database.update_score(guild.id, current_author, 0)
 				database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 			else:
 				previous_author, current_author = current_author, message.author.id
