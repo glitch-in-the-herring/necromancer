@@ -38,6 +38,7 @@ class Leaderboard(commands.Cog):
 					hms_score = converter.secs_to_hms(top10[i][1])
 					leaderboard_embed.add_field(
 						name=num2words(i+1, to="ordinal_num") + " Place:",
+						print(top10[i][0])
 						value=f"{guild.get_member(top10[i][0]).name}#{guild.get_member(top10[i][0]).discriminator}: {hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}",
 						inline=false
 					)
