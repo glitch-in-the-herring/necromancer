@@ -26,6 +26,7 @@ class Updater(commands.Cog):
 		if channel != None and channel == message.channel:
 			try:
 				previous_author, previous_timestamp = database.retrieve_last_message(guild.id)
+				print(previous_timestamp)
 				if previous_author != author:
 					score_delta = created_at - datetime.strptime(previous_timestamp, "%Y-%m-%d %H:%M:%S")
 					score_increase = converter.delta_to_secs(score_delta)
