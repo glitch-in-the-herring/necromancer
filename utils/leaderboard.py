@@ -23,7 +23,7 @@ class Leaderboard(commands.Cog):
 				own_score = database.retrieve_score(guild.id, author.id)
 				hms_score = converter.secs_to_hms(own_score)
 				rank = top10_scores.index(own_score) + 1
-				leaderboard_embed = discord.Embed(title=f"{num2words(rank, to="ordinal_num")} Place: {author.mention}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
+				leaderboard_embed = discord.Embed(title=num2words(rank, to="ordinal_num") + f" Place: {author.mention}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
 				leaderboard_embed.add_field(
 					name=":stopwatch: Score",
 					value=f"{str(hms_score[0])}:{str(hms_score[1])}:{str(hms_score[2])}"
@@ -34,7 +34,7 @@ class Leaderboard(commands.Cog):
 				while i < upto:
 					hms_score = converter.secs_to_hms(top10[i][1])
 					leaderboard_embed.add_field(
-						name=f"{num2words(i+1, to=ordinal_num)} place:",
+						name=num2words(i+1, to=ordinal_num) + " Place:",
 						value=f"{guild.get_member(top10[i][0]).name}#{guild.get_member(top10[i][0]).discriminator}: {str(hms_score[0])}:{str(hms_score[1])}:{str(hms_score[2])}",
 						inline=false
 					)
