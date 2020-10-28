@@ -33,6 +33,7 @@ class Leaderboard(commands.Cog):
 			elif len(args) == 1:
 				upto, i = args[0], 0
 				leaderboard_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
+				print("next up is the upto loop")
 				while i < upto:
 					hms_score = converter.secs_to_hms(top10[i][1])
 					leaderboard_embed.add_field(
