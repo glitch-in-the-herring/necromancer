@@ -28,7 +28,7 @@ class Updater(commands.Cog):
 				previous_author, previous_timestamp = database.retrieve_last_message(guild.id)
 				print(f"previous author: {previous_author}")
 				print(f"previous timestamp: {previous_timestamp}")
-				if previous_author != author:
+				if previous_author != author.id:
 					score_delta = created_at - datetime.strptime(previous_timestamp, "%Y-%m-%d %H:%M:%S")
 					score_increase = converter.delta_to_secs(score_delta)
 					score = score_increase + database.retrieve_score(guild.id, author.id)
