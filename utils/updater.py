@@ -40,6 +40,9 @@ class Updater(commands.Cog):
 			except TypeError:				
 				database.update_last_message(guild.id, author.id, created_at.strftime("%Y-%m-%d %H:%M:%S"))
 
+	@commands.Cog.listener()
+	async def on_message(self, message):
+		await message.channel.send(f"{message.author.mention} deleted a message.")
 
 	# Commands
 	# Sets the game channel
