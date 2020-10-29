@@ -20,25 +20,26 @@ class Updater(commands.Cog):
 	# Listens for new messages in the game channel
 	@commands.Cog.listener()
 	async def on_message(self, message):
-		database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
-		guild, author, created_at = message.guild, message.author, message.created_at
-		channel = guild.get_channel(database.retrieve_channel(guild.id))
-		if channel != None and channel == message.channel:
-			try:
-				previous_author, previous_timestamp = database.retrieve_last_message(guild.id)
-				print(f"previous author: {previous_author}")
-				print(f"previous timestamp: {previous_timestamp}")
-				if previous_author != author.id:
-					score_delta = created_at - datetime.strptime(previous_timestamp, "%Y-%m-%d %H:%M:%S")
-					score_increase = converter.delta_to_secs(score_delta)
-					score = score_increase + database.retrieve_score(guild.id, author.id)
-					database.update_score(guild.id, author.id, score)
+		if message.author != self.bot:
+			database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
+			guild, author, created_at = message.guild, message.author, message.created_at
+			channel = guild.get_channel(database.retrieve_channel(guild.id))
+			if channel != None and channel == message.channel:
+				try:
+					previous_author, previous_timestamp = database.retrieve_last_message(guild.id)
+					print(f"previous author: {previous_author}")
+					print(f"previous timestamp: {previous_timestamp}")
+					if previous_author != author.id:
+						score_delta = created_at - datetime.strptime(previous_timestamp, "%Y-%m-%d %H:%M:%S")
+						score_increase = converter.delta_to_secs(score_delta)
+						score = score_increase + database.retrieve_score(guild.id, author.id)
+						database.update_score(guild.id, author.id, score)
+						database.update_last_message(guild.id, author.id, created_at.strftime("%Y-%m-%d %H:%M:%S"))
+						database.commit()
+					else:
+						await message.delete()
+				except TypeError:				
 					database.update_last_message(guild.id, author.id, created_at.strftime("%Y-%m-%d %H:%M:%S"))
-					database.commit()
-				else:
-					await message.delete()
-			except TypeError:				
-				database.update_last_message(guild.id, author.id, created_at.strftime("%Y-%m-%d %H:%M:%S"))
 
 	@commands.Cog.listener()
 	async def on_message_delete(self, message):
