@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 import discord
 from discord.ext import commands
@@ -9,10 +10,11 @@ class Updater(commands.Cog):
 
 	# Checks
 	# Checks if the user invoking the command is an admin
+	# Currently hardcoded
 	def is_admin():
 		async def predicate(ctx):
 			member = ctx.author
-			return member.guild_permissions.administrator or member.guild_permissions.manage_channels	
+			return member.id in [284481404992094209]	
 		return commands.check(predicate)
 
 
@@ -27,8 +29,6 @@ class Updater(commands.Cog):
 			if channel != None and channel == message.channel:
 				try:
 					previous_author, previous_timestamp = database.retrieve_last_message(guild.id)
-					print(f"previous author: {previous_author}")
-					print(f"previous timestamp: {previous_timestamp}")
 					if previous_author != author.id:
 						score_delta = created_at - datetime.strptime(previous_timestamp, "%Y-%m-%d %H:%M:%S")
 						score_increase = converter.delta_to_secs(score_delta)
@@ -61,11 +61,11 @@ class Updater(commands.Cog):
 		database = self.bot.get_cog("Database")
 		database.update_server(ctx.guild.id, channel.id)
 		database.commit()
-		await ctx.send(f"Successfully set <#{channel.id}> as a necromancy channel for this server.")
+		await ctx.send(f"Successfully set <#{channel.id}> as the necromancy channel for this server.")
+		logging.info(f'[{datetime.now()}] CHANNEL on server: {ctx.guild.id}, new channel: {channel.id}')
 
 	@setchannel.error
 	async def setchannel_error(self, ctx, error):
-		print(error)
 		if isinstance(error, commands.BadArgument):
 			await ctx.send("Please specify a proper channel!")
 		elif isinstance(error, commands.CheckFailure):
@@ -104,6 +104,7 @@ class Updater(commands.Cog):
 	
 		database.commit()
 		await ctx.send("Successfully updated the channel.")
+		logging.info(f'[{datetime.now()}] UPDATE on server: {guild.id}')
 
 	@update.error
 	async def update_error(self, ctx, error):
