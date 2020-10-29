@@ -20,7 +20,7 @@ class Updater(commands.Cog):
 	# Listens for new messages in the game channel
 	@commands.Cog.listener()
 	async def on_message(self, message):
-		if message.author != self.bot:
+		if message.author != self.bot.user:
 			database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
 			guild, author, created_at = message.guild, message.author, message.created_at
 			channel = guild.get_channel(database.retrieve_channel(guild.id))
