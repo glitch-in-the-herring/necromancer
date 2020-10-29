@@ -1,2 +1,2 @@
-discord.py>=1.4.1
+discord.py>=1.5.0
 num2words>=0.5.10
