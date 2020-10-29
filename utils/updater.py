@@ -86,21 +86,22 @@ class Updater(commands.Cog):
 		first = True
 		database.clear_score(guild.id)
 		async for message in channel.history(limit=None, oldest_first=True):
-			if first:
-				current_timestamp = message.created_at
-				current_author = message.author.id
-				first = False
-				database.update_score(guild.id, current_author, 0)
-				database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
-			else:
-				previous_author, current_author = current_author, message.author.id
-				if previous_author != current_author:
-					previous_timestamp, current_timestamp = current_timestamp, message.created_at
-					score_delta = current_timestamp - previous_timestamp
-					score_increase = converter.delta_to_secs(score_delta)
-					score = score_increase + database.retrieve_score(guild.id, current_author)
-					database.update_score(guild.id, current_author, score)
-					database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))	
+			if message.author != self.bot.user:
+				if first:
+					current_timestamp = message.created_at
+					current_author = message.author.id
+					first = False
+					database.update_score(guild.id, current_author, 0)
+					database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
+				else:
+					previous_author, current_author = current_author, message.author.id
+					if previous_author != current_author:
+						previous_timestamp, current_timestamp = current_timestamp, message.created_at
+						score_delta = current_timestamp - previous_timestamp
+						score_increase = converter.delta_to_secs(score_delta)
+						score = score_increase + database.retrieve_score(guild.id, current_author)
+						database.update_score(guild.id, current_author, score)
+						database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))	
 	
 		database.commit()
 		await ctx.send("Successfully updated the channel.")

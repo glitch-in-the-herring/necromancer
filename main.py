@@ -1,7 +1,9 @@
-import os, argparse
+import os, argparse, logging
 import discord
 from discord.ext import commands
 description = "Mutes and unmutes everyone in a voice channel"
+
+logging.basicConfig(level=logging.DEBUG)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-t", "--token", metavar='TOKEN', help="Bot token. Keep this secret")
