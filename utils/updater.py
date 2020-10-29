@@ -41,8 +41,12 @@ class Updater(commands.Cog):
 				database.update_last_message(guild.id, author.id, created_at.strftime("%Y-%m-%d %H:%M:%S"))
 
 	@commands.Cog.listener()
-	async def on_message(self, message):
-		await message.channel.send(f"{message.author.mention} deleted a message.")
+	async def on_message_delete(self, message):
+		database = self.bot.get_cog("Database")
+		guild, author, created_at = message.guild, message.author, message.created_at
+		channel = guild.get_channel(database.retrieve_channel(guild.id))
+		if channel != None and channel == message.channel:
+			await message.channel.send(f"{message.author.mention} deleted a message.")
 
 	# Commands
 	# Sets the game channel
