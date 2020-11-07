@@ -84,10 +84,9 @@ class Updater(commands.Cog):
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
 		first = True
 		database.clear_score(guild.id)
-		print("database cleared")
+		print(f"channel: {channel.name}")
 		async for message in channel.history(limit=None, oldest_first=True):
 			if first:
-				print("first message cleared")
 				current_timestamp = message.created_at
 				current_author = message.author.id
 				first = False
