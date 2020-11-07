@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-import discord
+import discord, database, converter
 from discord.ext import commands
 
 class Updater(commands.Cog):
@@ -23,7 +23,6 @@ class Updater(commands.Cog):
 	@commands.Cog.listener()
 	async def on_message(self, message):
 		if message.author != self.bot.user:
-			database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
 			guild, author, created_at = message.guild, message.author, message.created_at
 			channel = guild.get_channel(database.retrieve_channel(guild.id))
 			if channel != None and channel == message.channel:
@@ -43,7 +42,6 @@ class Updater(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_message_delete(self, message):
-		database = self.bot.get_cog("Database")
 		guild, author, created_at = message.guild, message.author, message.created_at
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
 		if channel != None and channel == message.channel:
@@ -58,7 +56,6 @@ class Updater(commands.Cog):
 	)
 	@is_admin()
 	async def setchannel(self, ctx, channel: discord.TextChannel):
-		database = self.bot.get_cog("Database")
 		database.update_server(ctx.guild.id, channel.id)
 		database.commit()
 		await ctx.send(f"Successfully set <#{channel.id}> as the necromancy channel for this server.")
@@ -81,7 +78,6 @@ class Updater(commands.Cog):
 	@is_admin()
 	async def update(self, ctx):
 		guild = ctx.guild
-		database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
 		first = True
 		database.clear_score(guild.id)

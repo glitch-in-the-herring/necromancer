@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-import discord
+import discord, database, converter
 from discord.ext import commands
 from num2words import num2words
 
@@ -17,7 +17,6 @@ class Leaderboard(commands.Cog):
 	)
 	async def leaderboard(self, ctx, *args):
 		guild, author = ctx.guild, ctx.author
-		database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
 		try:
 			if len(args) == 0:
 				guild_scores = list(database.retrieve_guild_scores(guild.id))
@@ -44,6 +43,10 @@ class Leaderboard(commands.Cog):
 		except TypeError:
 			await ctx.send("Nobody has played yet!")
 
+	@leaderboard.error
+	async def update_error(self, ctx, error):
+		if isinstance(error, commands.BadArgument):
+			await ctx.send("Incorrect argument!")
 
 def setup(bot):
 	bot.add_cog(Leaderboard(bot))
