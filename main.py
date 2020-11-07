@@ -12,7 +12,6 @@ token, prefix = args.token, args.prefix
 
 intents = discord.Intents(messages=True, guilds=True, members=True)
 bot = commands.Bot(command_prefix=prefix, intents=intents)
-await bot.change_presence(activity=discord.Game(name=f"{prefix}help for info"))
 
 @bot.command
 async def load(ctx, extension):
