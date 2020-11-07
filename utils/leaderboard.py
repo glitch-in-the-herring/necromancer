@@ -19,12 +19,11 @@ class Leaderboard(commands.Cog):
 		guild, author = ctx.guild, ctx.author
 		database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
 		try:
-			top10 = list(database.retrieve_top_ten(guild.id))
 			if len(args) == 0:
-				top10_scores = [x[1] for x in top10]
+				guild_scores = list(database.retrieve_guild_scores(guild.id))
 				own_score = database.retrieve_score(guild.id, author.id)
 				hms_score = converter.secs_to_hms(own_score)
-				rank = top10_scores.index(own_score) + 1
+				rank = guild_scores.index((own_score,)) + 1
 				leaderboard_embed = discord.Embed(title=num2words(rank, to="ordinal_num") + f" Place: {author.name}#{author.discriminator}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
 				leaderboard_embed.add_field(
 					name=":stopwatch: Score",

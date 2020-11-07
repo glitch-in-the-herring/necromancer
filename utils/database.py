@@ -62,5 +62,10 @@ class Database(commands.Cog):
 		return c.execute("SELECT user_id, score FROM scores where guild_id = ? ORDER BY score DESC, user_id DESC LIMIT 10", [guild_id])
 
 
+	# Retrieves all players' scores in the guild
+	def retrieve_guild_scores(self, guild_id):
+		return c.execute("SELECT score FROM scores where guild_id = ? ORDER BY score DESC, user_id DESC", [guild_id])
+
+
 def setup(bot):
     bot.add_cog(Database(bot))
