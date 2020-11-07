@@ -98,14 +98,17 @@ class Updater(commands.Cog):
 				print(i)
 				i += 1
 				if previous_author != current_author:
+					print("logic 1")
 					previous_timestamp, current_timestamp = current_timestamp, message.created_at
 					score_delta = current_timestamp - previous_timestamp
 					score_increase = converter.delta_to_secs(score_delta)
 					score = score_increase + database.retrieve_score(guild.id, current_author)
 					if current_author != self.bot.user.id:
+						print("logic 2a")
 						database.update_score(guild.id, current_author, score)
 						database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 					else:
+						print("logic 2b")
 						database.update_last_message(guild.id, 0, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 					
 		database.commit()
