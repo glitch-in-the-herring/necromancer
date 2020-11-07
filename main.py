@@ -26,6 +26,6 @@ async def unload(ctx, extension):
 
 bot.load_extension("utils.updater")
 bot.load_extension("utils.events")
-bot.load_extension("utils.leaderboardt")
+bot.load_extension("utils.leaderboard")
 
 bot.run(token)
