@@ -79,12 +79,15 @@ class Updater(commands.Cog):
 	)
 	@is_admin()
 	async def update(self, ctx):
+		print("command invoked")
 		guild = ctx.guild
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
 		first = True
 		database.clear_score(guild.id)
+		print("database cleared")
 		async for message in channel.history(limit=None, oldest_first=True):
 			if first:
+				print("first message cleared")
 				current_timestamp = message.created_at
 				current_author = message.author.id
 				first = False
