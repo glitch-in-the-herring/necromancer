@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-import discord, database, converter
+import discord, utils.database, utils.converter
 from discord.ext import commands
 
 class Updater(commands.Cog):
