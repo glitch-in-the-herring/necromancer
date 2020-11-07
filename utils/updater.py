@@ -127,6 +127,8 @@ class Updater(commands.Cog):
 			await ctx.send("This guild does not have a game channel!")
 		elif isinstance(error, commands.CheckFailure):
 			await ctx.send("You do not have permissions to execute this command!")
+		else:
+			await ctx.send(error)
 
 def setup(bot):
 	bot.add_cog(Updater(bot))
