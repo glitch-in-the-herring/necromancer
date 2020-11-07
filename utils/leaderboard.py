@@ -2,6 +2,8 @@ from datetime import datetime, timezone
 import discord
 from discord.ext import commands
 from num2words import num2words
+import utils.database as database
+import utils.converter as converter
 
 class Leaderboard(commands.Cog):
 	def __init__(self, bot):
@@ -17,7 +19,6 @@ class Leaderboard(commands.Cog):
 	)
 	async def leaderboard(self, ctx, *args):
 		guild, author = ctx.guild, ctx.author
-		database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
 		try:
 			if len(args) == 0:
 				guild_scores = list(database.retrieve_guild_scores(guild.id))
@@ -30,6 +31,7 @@ class Leaderboard(commands.Cog):
 					value=f"{hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}"
 				)
 			elif len(args) == 1:
+				top10 = list(database.retrieve_top_ten(guild.id))
 				upto, i = int(args[0]), 0
 				leaderboard_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
 				while i < upto:
@@ -44,6 +46,10 @@ class Leaderboard(commands.Cog):
 		except TypeError:
 			await ctx.send("Nobody has played yet!")
 
+	@leaderboard.error
+	async def update_error(self, ctx, error):
+		if isinstance(error, commands.BadArgument):
+			await ctx.send("Incorrect argument!")
 
 def setup(bot):
 	bot.add_cog(Leaderboard(bot))

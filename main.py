@@ -12,7 +12,6 @@ token, prefix = args.token, args.prefix
 
 intents = discord.Intents(messages=True, guilds=True, members=True)
 bot = commands.Bot(command_prefix=prefix, intents=intents)
-bot.change_presence(activity=discord.Game(name=f"{prefix}help for info"))
 
 @bot.command
 async def load(ctx, extension):
@@ -24,9 +23,8 @@ async def unload(ctx, extension):
 	bot.unload_extension(f"utils.{extension}")
 
 
-for filename in os.listdir("./utils"):
-	if filename.endswith(".py"):
-		bot.load_extension(f"utils.{filename[:-3]}")
-
+bot.load_extension("utils.updater")
+bot.load_extension("utils.events")
+bot.load_extension("utils.leaderboard")
 
 bot.run(token)

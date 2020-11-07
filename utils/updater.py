@@ -2,6 +2,8 @@ import logging
 from datetime import datetime
 import discord
 from discord.ext import commands
+import utils.database as database
+import utils.converter as converter
 
 class Updater(commands.Cog):
 	def __init__(self, bot):
@@ -23,7 +25,6 @@ class Updater(commands.Cog):
 	@commands.Cog.listener()
 	async def on_message(self, message):
 		if message.author != self.bot.user:
-			database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
 			guild, author, created_at = message.guild, message.author, message.created_at
 			channel = guild.get_channel(database.retrieve_channel(guild.id))
 			if channel != None and channel == message.channel:
@@ -43,7 +44,6 @@ class Updater(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_message_delete(self, message):
-		database = self.bot.get_cog("Database")
 		guild, author, created_at = message.guild, message.author, message.created_at
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
 		if channel != None and channel == message.channel:
@@ -58,7 +58,6 @@ class Updater(commands.Cog):
 	)
 	@is_admin()
 	async def setchannel(self, ctx, channel: discord.TextChannel):
-		database = self.bot.get_cog("Database")
 		database.update_server(ctx.guild.id, channel.id)
 		database.commit()
 		await ctx.send(f"Successfully set <#{channel.id}> as the necromancy channel for this server.")
@@ -70,6 +69,8 @@ class Updater(commands.Cog):
 			await ctx.send("Please specify a proper channel!")
 		elif isinstance(error, commands.CheckFailure):
 			await ctx.send("You do not have permissions to execute this command!")
+		else:
+			print(error)
 
 
 	# Forces the leaderboard to update
@@ -80,8 +81,8 @@ class Updater(commands.Cog):
 	)
 	@is_admin()
 	async def update(self, ctx):
+		print("command invoked")
 		guild = ctx.guild
-		database, converter = self.bot.get_cog("Database"), self.bot.get_cog("Converter")
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
 		first = True
 		database.clear_score(guild.id)
@@ -104,7 +105,7 @@ class Updater(commands.Cog):
 						database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 					else:
 						database.update_last_message(guild.id, 0, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
-			
+					
 		database.commit()
 		await ctx.send("Successfully updated the channel.")
 		logging.info(f'[{datetime.now()}] UPDATE on server: {guild.id}')
@@ -115,6 +116,8 @@ class Updater(commands.Cog):
 			await ctx.send("This guild does not have a game channel!")
 		elif isinstance(error, commands.CheckFailure):
 			await ctx.send("You do not have permissions to execute this command!")
+		else:
+			print(error)
 
 def setup(bot):
 	bot.add_cog(Updater(bot))
