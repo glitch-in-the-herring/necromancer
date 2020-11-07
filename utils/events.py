@@ -9,7 +9,7 @@ class Events(commands.Cog):
 	@commands.Cog.listener()
 	async def on_ready(self):
 		print("We have logged in")
-		await bot.change_presence(activity=discord.Game(name=f"{prefix}help for info"))
+		await self.bot.change_presence(activity=discord.Game(name=f"{prefix}help for info"))
 
 
 def setup(bot):
