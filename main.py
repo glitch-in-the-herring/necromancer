@@ -24,9 +24,8 @@ async def unload(ctx, extension):
 	bot.unload_extension(f"utils.{extension}")
 
 
-for filename in os.listdir("./utils"):
-	if filename.endswith(".py"):
-		bot.load_extension(f"utils.{filename[:-3]}")
-
+bot.load_extension("updater")
+bot.load_extension("events")
+bot.load_extension("leaderboard")
 
 bot.run(token)
