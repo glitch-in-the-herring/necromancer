@@ -69,6 +69,8 @@ class Updater(commands.Cog):
 			await ctx.send("Please specify a proper channel!")
 		elif isinstance(error, commands.CheckFailure):
 			await ctx.send("You do not have permissions to execute this command!")
+		else:
+			print(error)
 
 
 	# Forces the leaderboard to update
@@ -84,8 +86,6 @@ class Updater(commands.Cog):
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
 		first = True
 		database.clear_score(guild.id)
-		print(f"channel: {channel.name}")
-		i = 0
 		async for message in channel.history(limit=None, oldest_first=True):
 			if first:
 				current_timestamp = message.created_at
@@ -95,26 +95,15 @@ class Updater(commands.Cog):
 				database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 			else:
 				previous_author, current_author = current_author, message.author.id
-				print(i)
-				i += 1
 				if previous_author != current_author:
-					print("logic 1")
 					previous_timestamp, current_timestamp = current_timestamp, message.created_at
-					print("logic 1.1")
 					score_delta = current_timestamp - previous_timestamp
-					print("logic 1.2")
-					print(score_delta)
 					score_increase = converter.delta_to_secs(score_delta)
-					print(score_increase)
-					print("logic 1.3")
 					score = score_increase + database.retrieve_score(guild.id, current_author)
-					print("logic 1.4")
 					if current_author != self.bot.user.id:
-						print("logic 2a")
 						database.update_score(guild.id, current_author, score)
 						database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 					else:
-						print("logic 2b")
 						database.update_last_message(guild.id, 0, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 					
 		database.commit()
@@ -128,7 +117,7 @@ class Updater(commands.Cog):
 		elif isinstance(error, commands.CheckFailure):
 			await ctx.send("You do not have permissions to execute this command!")
 		else:
-			await ctx.send(error)
+			print(error)
 
 def setup(bot):
 	bot.add_cog(Updater(bot))

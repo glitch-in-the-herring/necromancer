@@ -2,7 +2,7 @@ import os, argparse, logging
 import discord
 from discord.ext import commands
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-t", "--token", metavar='TOKEN', help="Bot token. Keep this secret")
