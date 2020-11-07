@@ -104,6 +104,7 @@ class Updater(commands.Cog):
 					score_delta = current_timestamp - previous_timestamp
 					print("logic 1.2")
 					score_increase = converter.delta_to_secs(score_delta)
+					print(score_increase)
 					print("logic 1.3")
 					score = score_increase + database.retrieve_score(guild.id, current_author)
 					print("logic 1.4")
