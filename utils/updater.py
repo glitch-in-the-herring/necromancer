@@ -1,9 +1,9 @@
 import logging
 from datetime import datetime
 import discord
+from discord.ext import commands
 import utils.database as database
 import utils.converter as converter
-from discord.ext import commands
 
 class Updater(commands.Cog):
 	def __init__(self, bot):

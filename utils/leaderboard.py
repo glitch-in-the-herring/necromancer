@@ -1,7 +1,9 @@
 from datetime import datetime, timezone
-import discord, utils.database, utils.converter
+import discord
 from discord.ext import commands
 from num2words import num2words
+import utils.database as database
+import utils.converter as converter
 
 class Leaderboard(commands.Cog):
 	def __init__(self, bot):
