@@ -85,6 +85,7 @@ class Updater(commands.Cog):
 		first = True
 		database.clear_score(guild.id)
 		print(f"channel: {channel.name}")
+		i = 0
 		async for message in channel.history(limit=None, oldest_first=True):
 			if first:
 				current_timestamp = message.created_at
@@ -94,6 +95,8 @@ class Updater(commands.Cog):
 				database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 			else:
 				previous_author, current_author = current_author, message.author.id
+				print(i)
+				i += 1
 				if previous_author != current_author:
 					previous_timestamp, current_timestamp = current_timestamp, message.created_at
 					score_delta = current_timestamp - previous_timestamp
@@ -104,7 +107,7 @@ class Updater(commands.Cog):
 						database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 					else:
 						database.update_last_message(guild.id, 0, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
-			
+					
 		database.commit()
 		await ctx.send("Successfully updated the channel.")
 		logging.info(f'[{datetime.now()}] UPDATE on server: {guild.id}')
