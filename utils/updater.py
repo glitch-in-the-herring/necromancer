@@ -103,6 +103,7 @@ class Updater(commands.Cog):
 					print("logic 1.1")
 					score_delta = current_timestamp - previous_timestamp
 					print("logic 1.2")
+					print(score_delta)
 					score_increase = converter.delta_to_secs(score_delta)
 					print(score_increase)
 					print("logic 1.3")
