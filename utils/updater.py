@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 import utils.database as database
 import utils.converter as converter
+from main import config
 
 class Updater(commands.Cog):
 	def __init__(self, bot):
@@ -16,7 +17,7 @@ class Updater(commands.Cog):
 	def is_admin():
 		async def predicate(ctx):
 			member = ctx.author
-			return member.id in [284481404992094209]	
+			return member.id in [int(config["sysadmin_id"])]	
 		return commands.check(predicate)
 
 
@@ -81,7 +82,6 @@ class Updater(commands.Cog):
 	)
 	@is_admin()
 	async def update(self, ctx):
-		print("command invoked")
 		guild = ctx.guild
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
 		first = True
