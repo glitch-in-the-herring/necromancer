@@ -33,6 +33,7 @@ class Leaderboard(commands.Cog):
 			elif len(args) == 1:
 				await ctx.send("cover yourself")
 				top10 = list(database.retrieve_top_ten(guild.id))
+				await ctx.send(top10)
 				upto, i = int(args[0]), 0
 				await ctx.send("in oil")
 				leaderboard_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
@@ -47,7 +48,6 @@ class Leaderboard(commands.Cog):
 					i += 1
 					await ctx.send("fly away")
 			await ctx.send(embed=leaderboard_embed)
-			await ctx.send("did that work or did you die from fall damage?")
 		except e:
 			await ctx.send("oopsy woopsy")
 			await ctx.send(e)
