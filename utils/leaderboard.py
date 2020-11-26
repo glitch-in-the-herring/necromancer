@@ -47,6 +47,7 @@ class Leaderboard(commands.Cog):
 					i += 1
 					await ctx.send("fly away")
 			await ctx.send(embed=leaderboard_embed)
+			await ctx.send("did that work or did you die from fall damage?")
 		except e:
 			await ctx.send("oopsy woopsy")
 			await ctx.send(e)
