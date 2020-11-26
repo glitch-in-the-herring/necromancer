@@ -31,13 +31,9 @@ class Leaderboard(commands.Cog):
 					value=f"{hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}"
 				)
 			elif len(args) == 1:
-				await ctx.send("cover yourself")
 				top10 = list(database.retrieve_top_ten(guild.id))
-				await ctx.send(top10)
 				upto, i = int(args[0]), 0
-				await ctx.send("in oil")
 				leaderboard_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
-				await ctx.send("wait for it to rain")
 				while i < upto:
 					hms_score = converter.secs_to_hms(top10[i][1])
 					leaderboard_embed.add_field(
@@ -46,7 +42,6 @@ class Leaderboard(commands.Cog):
 						inline=False
 					)
 					i += 1
-					await ctx.send("fly away")
 			await ctx.send(embed=leaderboard_embed)
 		except e:
 			await ctx.send("oopsy woopsy")
