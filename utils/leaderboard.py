@@ -43,8 +43,9 @@ class Leaderboard(commands.Cog):
 					)
 					i += 1
 			await ctx.send(embed=leaderboard_embed)
-		except TypeError:
-			await ctx.send("Nobody has played yet!")
+		except e:
+			await ctx.send("oopsy woopsy")
+			await ctx.send(e)
 
 	@leaderboard.error
 	async def update_error(self, ctx, error):
