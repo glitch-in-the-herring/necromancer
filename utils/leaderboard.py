@@ -24,7 +24,7 @@ class Leaderboard(commands.Cog):
 			own_score = database.retrieve_score(guild.id, author.id)
 			own_count = database.retrieve_count(guild.id, author.id)
 			hms_score = converter.secs_to_hms(own_score)
-			hms_average = converter.secs_to_hms(own_score / own_count)
+			hms_average = converter.secs_to_hms(round(own_score / own_count))
 			rank = guild_scores.index((own_score,)) + 1
 			leaderboard_embed = discord.Embed(title=num2words(rank, to="ordinal_num") + f" Place: {author.name}#{author.discriminator}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
 			leaderboard_embed.add_field(
