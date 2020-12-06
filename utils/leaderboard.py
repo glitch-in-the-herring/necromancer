@@ -37,6 +37,7 @@ class Leaderboard(commands.Cog):
 				value=f"{hms_average[0]:02}:{hms_average[1]:02}:{hms_average[2]:02}",
 				inline=False
 			)			
+			await ctx.send(embed=leaderboard_embed)
 		elif len(args) == 1:
 			try:
 				top10 = list(database.retrieve_top_ten(guild.id))
@@ -58,7 +59,7 @@ class Leaderboard(commands.Cog):
 							inline=False	
 						)
 					i += 1
-		await ctx.send(embed=leaderboard_embed)		
+				await ctx.send(embed=leaderboard_embed)		
 			except ValueError:
 				await ctx.send("Not a Number!")
 
