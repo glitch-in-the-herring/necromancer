@@ -1,13 +1,29 @@
-import os, argparse, logging, json
+import argparse
+import json
+import logging
+import os
 import discord
 from discord.ext import commands
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO,
+		format='%(asctime)s %(levelname)-8s %(message)s',
+		datefmt='%Y-%m-%d %H:%M:%S'
+	)
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-t", "--token", metavar='TOKEN', help="Bot token. Keep this secret")
-parser.add_argument("-p", "--prefix", metavar='PREFIX', default="^", help="Bot prefix. Used to invoke the bot commands. Defaults to ^")
-parser.add_argument("-s", "--sysadmin", metavar='ID', help="Sysadmin user ID")
+parser.add_argument("-t", "--token", 
+	metavar='TOKEN', 
+	help="Bot token. Keep this secret"
+)
+parser.add_argument("-p", "--prefix", 
+	metavar='PREFIX', 
+	default="^", 
+	help="Bot prefix. Used to invoke the bot commands. Defaults to ^"
+)
+parser.add_argument("-s", "--sysadmin", 
+	metavar='ID', 
+	help="Sysadmin user ID"
+)
 args = parser.parse_args()
 token, prefix, sysadmin_id = args.token, args.prefix, args.sysadmin
 

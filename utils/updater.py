@@ -26,7 +26,11 @@ class Updater(commands.Cog):
 	@commands.Cog.listener()
 	async def on_message(self, message):
 		if message.author != self.bot.user:
-			guild, author, created_at = message.guild, message.author, message.created_at
+			guild, author, created_at = (
+				message.guild, 
+				message.author, 
+				message.created_at
+			)
 			channel = guild.get_channel(database.retrieve_channel(guild.id))
 			if channel != None and channel == message.channel:
 				try:
@@ -35,7 +39,8 @@ class Updater(commands.Cog):
 						score_delta = created_at - datetime.strptime(previous_timestamp, "%Y-%m-%d %H:%M:%S")
 						score_increase = converter.delta_to_secs(score_delta)
 						score = score_increase + database.retrieve_score(guild.id, author.id)
-						database.update_score(guild.id, author.id, score)
+						count = database.retrieve_count(guild.id, author.id) + 1
+						database.update_score(guild.id, author.id, score, count)
 						database.update_last_message(guild.id, author.id, created_at.strftime("%Y-%m-%d %H:%M:%S"))
 						database.commit()
 					else:
@@ -62,7 +67,7 @@ class Updater(commands.Cog):
 		database.update_server(ctx.guild.id, channel.id)
 		database.commit()
 		await ctx.send(f"Successfully set <#{channel.id}> as the necromancy channel for this server.")
-		logging.info(f'[{datetime.now()}] CHANNEL on server: {ctx.guild.id}, new channel: {channel.id}')
+		logging.info(f'CHANNEL on server: {ctx.guild.id}, new channel: {channel.id}')
 
 	@setchannel.error
 	async def setchannel_error(self, ctx, error):
@@ -91,24 +96,28 @@ class Updater(commands.Cog):
 				current_timestamp = message.created_at
 				current_author = message.author.id
 				first = False
-				database.update_score(guild.id, current_author, 0)
+				database.update_score(guild.id, current_author, 0, 1)
 				database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 			else:
 				previous_author, current_author = current_author, message.author.id
 				if previous_author != current_author:
-					previous_timestamp, current_timestamp = current_timestamp, message.created_at
+					previous_timestamp, current_timestamp = (
+						current_timestamp, 
+						message.created_at
+					)
 					score_delta = current_timestamp - previous_timestamp
 					score_increase = converter.delta_to_secs(score_delta)
 					score = score_increase + database.retrieve_score(guild.id, current_author)
+					count = database.retrieve_count(guild.id, current_author) + 1
 					if current_author != self.bot.user.id:
-						database.update_score(guild.id, current_author, score)
+						database.update_score(guild.id, current_author, score, count)
 						database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 					else:
 						database.update_last_message(guild.id, 0, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 					
 		database.commit()
 		await ctx.send("Successfully updated the channel.")
-		logging.info(f'[{datetime.now()}] UPDATE on server: {guild.id}')
+		logging.info(f'UPDATE on server: {guild.id}')
 
 	@update.error
 	async def update_error(self, ctx, error):
@@ -118,6 +127,17 @@ class Updater(commands.Cog):
 			await ctx.send("You do not have permissions to execute this command!")
 		else:
 			print(error)
+
+	@commands.command(
+		name="clear",
+		help="Deletes the entire scoreboard in a server. Useful for diagnosing errors.",
+		brief="Deletes the entire scoreboard."
+	)
+	@is_admin()
+	async def clear(self, ctx):
+		database.clear_score(ctx.guild.id)
+		await ctx.send("Deleted the guild's score")
+		logging.info(f'DELETION on server: {ctx.guild.id}')
 
 def setup(bot):
 	bot.add_cog(Updater(bot))

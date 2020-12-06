@@ -2,6 +2,7 @@ CREATE TABLE scores (
 	user_id INTEGER NOT NULL,
 	guild_id INTEGER NOT NULL,
 	score INTEGER,
+	count INTEGER,
 	PRIMARY KEY(user_id, guild_id)
 );
 CREATE TABLE guilds (
