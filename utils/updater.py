@@ -76,7 +76,7 @@ class Updater(commands.Cog):
 		elif isinstance(error, commands.CheckFailure):
 			await ctx.send("You do not have permissions to execute this command!")
 		else:
-			print(error)
+			await ctx.send(error)
 
 
 	# Forces the leaderboard to update
@@ -121,12 +121,13 @@ class Updater(commands.Cog):
 
 	@update.error
 	async def update_error(self, ctx, error):
-		if isinstance(error, TypeError):
+		if isinstance(error, AttributeError):
 			await ctx.send("This guild does not have a game channel!")
 		elif isinstance(error, commands.CheckFailure):
 			await ctx.send("You do not have permissions to execute this command!")
 		else:
-			print(error)
+			await ctx.send(error)
+
 
 	@commands.command(
 		name="clear",
