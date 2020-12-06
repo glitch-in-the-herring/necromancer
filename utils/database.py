@@ -91,7 +91,7 @@ def retrieve_count(guild_id, user_id):
 			FROM scores 
 			WHERE guild_id = ? AND user_id = ?""", 
 			[guild_id, user_id]
-		)
+		).fetchone()[0]
 	except TypeError:
 		return 0
 
