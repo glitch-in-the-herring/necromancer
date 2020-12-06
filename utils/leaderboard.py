@@ -29,11 +29,13 @@ class Leaderboard(commands.Cog):
 			leaderboard_embed = discord.Embed(title=num2words(rank, to="ordinal_num") + f" Place: {author.name}#{author.discriminator}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
 			leaderboard_embed.add_field(
 				name=":stopwatch: Score",
-				value=f"{hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}"
+				value=f"{hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}",
+				inline=False
 			)
 			leaderboard_embed.add_field(
 				name=":abacus: Average score",
-				value=f"{hms_average[0]:02}:{hms_average[1]:02}:{hms_average[2]:02}"
+				value=f"{hms_average[0]:02}:{hms_average[1]:02}:{hms_average[2]:02}",
+				inline=False
 			)			
 		elif len(args) == 1:
 			try:
@@ -56,7 +58,7 @@ class Leaderboard(commands.Cog):
 							inline=False	
 						)
 					i += 1
-				await ctx.send(embed=leaderboard_embed)		
+		await ctx.send(embed=leaderboard_embed)		
 			except ValueError:
 				await ctx.send("Not a Number!")
 
