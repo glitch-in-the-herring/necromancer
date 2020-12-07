@@ -97,13 +97,12 @@ def retrieve_count(guild_id, user_id):
 
 
 # Retrieves the top 10 players in the guild
-def retrieve_top_ten(guild_id):
+def retrieve_server_board(guild_id):
 	return c.execute(
 		"""SELECT user_id, score 
 		FROM scores 
 		WHERE guild_id = ? 
-		ORDER BY score DESC, user_id DESC 
-		LIMIT 10""", 
+		ORDER BY score DESC, user_id DESC""", 
 		[guild_id]
 	)
 
