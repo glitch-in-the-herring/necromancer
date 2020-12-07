@@ -40,7 +40,6 @@ class Leaderboard(commands.Cog):
 					value="User not found" + ":" + f" {hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}",
 					inline=False	
 				)
-			i += 1
 		leaderboard_message = await ctx.send(embed=leaderboard_embed)
 		await leaderboard_message.add_reaction(":arrow_left:")
 		await leaderboard_message.add_reaction(":arrow_right:")
