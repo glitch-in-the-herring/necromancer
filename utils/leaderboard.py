@@ -22,7 +22,7 @@ class Leaderboard(commands.Cog):
 		guild, author = ctx.guild, ctx.author
 		server_board = list(database.retrieve_server_board(guild.id))
 		leaderboard_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
-		leaderboard_embed.set_thumbnail(url=str(guild.icon_url))
+		leaderboard_embed.set_image(url=str(guild.icon_url))
 		pages = math.floor(len(server_board)/5)
 		leaderboard_embed.set_footer(text=f"Page 1 of {pages}")
 		for y, x in enumerate(server_board[0:5]):
@@ -41,8 +41,8 @@ class Leaderboard(commands.Cog):
 					inline=False	
 				)
 		leaderboard_message = await ctx.send(embed=leaderboard_embed)
-		await leaderboard_message.add_reaction("arrow_left")
-		await leaderboard_message.add_reaction("arrow_right")
+		await leaderboard_message.add_reaction("⬅️")
+		await leaderboard_message.add_reaction("➡️")
 
 
 def setup(bot):
