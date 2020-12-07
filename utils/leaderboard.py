@@ -29,12 +29,13 @@ class Leaderboard(commands.Cog):
 				new_embed.set_thumbnail(url=str(guild.icon_url))			
 				print(reaction)
 				print(old_page)
-				if reaction == "⬅️" and old_page > 1:
+				print(pages)
+				if reaction == "⬅️":
 					print("hoe")
 					page = old_page - 1
 					await reaction.remove(user)
 					print("heh")
-				elif reaction == "➡️" and old_page < pages:
+				elif reaction == "➡️":
 					print("hoe")
 					page = old_page + 1
 					await reaction.remove(user)
