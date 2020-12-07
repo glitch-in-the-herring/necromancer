@@ -21,20 +21,27 @@ class Leaderboard(commands.Cog):
 			guild = message.guild
 			old_embed = message.embeds[0]
 			if old_embed.title == f"Server rank for {guild.name}":
+				print("hee")
 				old_page = int(old_embed.footer.text.split()[1])
 				server_board = list(enumerate(database.retrieve_server_board(guild.id)))
 				pages = math.floor(len(server_board)/5)
 				new_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
 				new_embed.set_thumbnail(url=str(guild.icon_url))			
 				if reaction == "⬅️" and old_page > 1:
+					print("hoe")
 					page = old_page - 1
 					await reaction.remove(user)
+					print("heh")
 				elif reaction == "➡️" and old_page < pages:
+					print("hoe")
 					page = old_page + 1
 					await reaction.remove(user)
+					print("heh")
 				else:
+					print("hay")
 					return
 				new_embed.set_footer(text=f"Page {page} of {pages}")
+				print("pale")
 				for y, x in server_board[(5 * (page-1)):(5 * (page))]:
 					nth_member = guild.get_member(x[0])
 					hms_score = converter.secs_to_hms(x[1])
