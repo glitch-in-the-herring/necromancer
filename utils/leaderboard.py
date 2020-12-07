@@ -15,8 +15,11 @@ class Leaderboard(commands.Cog):
 	@commands.Cog.listener()
 	async def on_reaction_add(self, reaction, user):
 		message = reaction.message
-		if message.author == self.bot.user:
-			print(message.embeds)	
+		if message.author == self.bot.user:	
+			guild = message.guild
+			leaderboard_embed = message.embeds[0]
+			if leaderboard_embed.title == f"Server rank for {guild.name}":
+				print(leaderboard_embed.footer)
 
 	# Commands
 	# Retrieves the leaderboard
