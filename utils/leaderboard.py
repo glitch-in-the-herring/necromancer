@@ -102,6 +102,7 @@ class Leaderboard(commands.Cog):
 	async def rank(self, ctx, user:discord.Member=None):
 		if user is None:
 			user = ctx.author
+		guild = ctx.guild
 		server_board = list(database.retrieve_server_board(guild.id))
 		score = database.retrieve_score(guild.id, user.id)
 		count = database.retrieve_count(guild.id, user.id)
