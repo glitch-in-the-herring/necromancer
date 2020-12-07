@@ -58,7 +58,12 @@ except IOError:
 
 		print("All done!")
 
-intents = discord.Intents(messages=True, guilds=True, members=True)
+intents = discord.Intents(
+	messages=True, 
+	guilds=True, 
+	members=True,
+	reactions=True,
+)
 bot = commands.Bot(command_prefix=prefix, intents=intents)
 
 @bot.command
