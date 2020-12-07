@@ -30,12 +30,12 @@ class Leaderboard(commands.Cog):
 				print(reaction)
 				print(old_page)
 				print(pages)
-				if reaction == "⬅️":
+				if str(reaction) == "⬅️" and old_page > 1:
 					print("hoe")
 					page = old_page - 1
 					await reaction.remove(user)
 					print("heh")
-				elif reaction == "➡️":
+				elif str(reaction) == "➡️" and old_page < pages:
 					print("hoe")
 					page = old_page + 1
 					await reaction.remove(user)
