@@ -12,6 +12,11 @@ class Leaderboard(commands.Cog):
 
 	# Listeners
 	# Listens for reactions to leaderboard messages
+	@commands.Cog.listener()
+	async def on_reaction_add(self, reaction, user):
+		message = reaction.message
+		if message.author == self.bot.user:
+			print(message.embeds)	
 
 	# Commands
 	# Retrieves the leaderboard
