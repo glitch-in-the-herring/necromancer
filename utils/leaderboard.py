@@ -27,7 +27,7 @@ class Leaderboard(commands.Cog):
 				if reaction == "⬅️" and old_page > 1:
 					page = old_page - 1
 					await reaction.remove(user)
-				elif reaction == "➡️" and old_page < pages
+				elif reaction == "➡️" and old_page < pages:
 					page = old_page + 1
 					await reaction.remove(user)
 				else:
