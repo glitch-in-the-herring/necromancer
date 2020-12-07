@@ -22,6 +22,7 @@ class Leaderboard(commands.Cog):
 		guild, author = ctx.guild, ctx.author
 		server_board = list(database.retrieve_server_board(guild.id))
 		leaderboard_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
+		print("behold a man")
 		print(guild.icon)
 		leaderboard_embed.set_thumbnail(guild.icon)
 		pages = math.floor(len(server_board)/5)
