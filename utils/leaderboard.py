@@ -27,6 +27,8 @@ class Leaderboard(commands.Cog):
 				pages = math.floor(len(server_board)/5)
 				new_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
 				new_embed.set_thumbnail(url=str(guild.icon_url))			
+				print(reaction)
+				print(old_page)
 				if reaction == "⬅️" and old_page > 1:
 					print("hoe")
 					page = old_page - 1
