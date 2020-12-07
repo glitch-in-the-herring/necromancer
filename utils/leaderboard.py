@@ -19,7 +19,7 @@ class Leaderboard(commands.Cog):
 			guild = message.guild
 			leaderboard_embed = message.embeds[0]
 			if leaderboard_embed.title == f"Server rank for {guild.name}":
-				page = leaderboard_embed.footer["text"].split()[1]
+				page = leaderboard_embed.footer.text.split()[1]
 				print(page)
 
 	# Commands
