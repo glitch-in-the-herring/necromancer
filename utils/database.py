@@ -96,7 +96,7 @@ def retrieve_count(guild_id, user_id):
 		return 0
 
 
-# Retrieves the top 10 players in the guild
+# Retrieves all players' scores in the guild
 def retrieve_server_board(guild_id):
 	return c.execute(
 		"""SELECT user_id, score 

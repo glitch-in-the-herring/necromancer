@@ -55,11 +55,11 @@ class Leaderboard(commands.Cog):
 					await message.add_reaction("➡️")
 
 	# Commands
-	# Retrieves the leaderboard
+	# Retrieves the server leaderboard
 	@commands.command(
 		name="top",
-		help="Shows the leaderboard. Still hardcoded to only show the top 10 players.",
-		brief="Shows the leaderboard. Up to 10 players may be displayed."
+		help="Shows the leaderboard. Use arrow reactions to navigate",
+		brief="Shows the leaderboard."
 	)
 	async def top(self, ctx, page:int=1):
 		guild, author = ctx.guild, ctx.author
@@ -92,6 +92,34 @@ class Leaderboard(commands.Cog):
 		else:
 			await ctx.send("Nothing to see")
 
+
+	# Retrieves the personal stats
+	@commands.command(
+		name="rank",
+		help="Shows the personal stats.",
+		brief="Shows the personal stats."
+	)
+	async def rank(self, ctx, user:discord.Member=None):
+		if user is None:
+			user = ctx.author
+		server_board = list(database.retrieve_server_board(guild.id))
+		score = database.retrieve_score(guild.id, user.id)
+		count = database.retrieve_count(guild.id, user.id)
+		hms_score = converter.secs_to_hms(score)
+		hms_average = converter.secs_to_hms(round(score/count))
+		rank = server_board.index((user.id, score)) + 1
+		leaderboard_embed = discord.Embed(title=num2words(rank, to="ordinal_num") + f" Place: {user.name}#{user.discriminator}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
+		leaderboard_embed.add_field(
+			name=":stopwatch: Score",
+			value=f"{hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02} ({count} posts)",
+			inline=False
+		)
+		leaderboard_embed.add_field(
+			name=":abacus: Average score",
+			value=f"{hms_average[0]:02}:{hms_average[1]:02}:{hms_average[2]:02}",
+			inline=False
+		)			
+		await ctx.send(embed=leaderboard_embed)
 
 def setup(bot):
 	bot.add_cog(Leaderboard(bot))
