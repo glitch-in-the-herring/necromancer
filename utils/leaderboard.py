@@ -22,7 +22,7 @@ class Leaderboard(commands.Cog):
 		guild, author = ctx.guild, ctx.author
 		server_board = list(database.retrieve_server_board(guild.id))
 		leaderboard_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
-		leaderboard_embed.set_thumbnail("https://2.bp.blogspot.com/-pUxH3ytWXhY/WjswPPKG28I/AAAAAAAAVow/-jCjoWIsfkkexjRJ3GWy04R8S57YFCWMwCLcBGAs/s1600/Face%2BUnwrapping%2Bthumbnail.jpg")
+		leaderboard_embed.set_thumbnail(url="https://2.bp.blogspot.com/-pUxH3ytWXhY/WjswPPKG28I/AAAAAAAAVow/-jCjoWIsfkkexjRJ3GWy04R8S57YFCWMwCLcBGAs/s1600/Face%2BUnwrapping%2Bthumbnail.jpg")
 		pages = math.floor(len(server_board)/5)
 		leaderboard_embed.set_footer(text=f"Page 1 of {pages}")
 		for y, x in enumerate(server_board[0:5]):
