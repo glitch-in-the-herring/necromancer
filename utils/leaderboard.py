@@ -26,12 +26,12 @@ class Leaderboard(commands.Cog):
 		pages = math.floor(len(server_board)/5)
 		leaderboard_embed.set_footer(text=f"Page 1 of {pages}")
 		for y, x in enumerate(server_board[0:5]):
-			member = guild.get_member(x[0])
+			nth_member = guild.get_member(x[0])
 			hms_score = converter.secs_to_hms(x[1])
-			if member is not None:
+			if nth_member is not None:
 				leaderboard_embed.add_field(
 					name=num2words(y+1, to="ordinal_num") + " Place:",
-					value=guild.get_member(top10[i][0]).name + "#" + str(guild.get_member(top10[i][0]).discriminator) + ":" + f" {hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}",
+					value=nth_member.name + "#" + str(nth_member.discriminator) + ":" + f" {hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}",
 					inline=False	
 				)
 			else:
