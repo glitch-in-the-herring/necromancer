@@ -22,13 +22,13 @@ class Leaderboard(commands.Cog):
 	)
 	async def top(self, ctx, page:int=1):
 		guild, author = ctx.guild, ctx.author
-		server_board = list(database.retrieve_server_board(guild.id))
+		server_board = list(enumerate(database.retrieve_server_board(guild.id)))
 		pages = math.floor(len(server_board)/5)
 		if page <= pages:
 			leaderboard_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
 			leaderboard_embed.set_image(url=str(guild.icon_url))
 			leaderboard_embed.set_footer(text=f"Page {page} of {pages}")
-			for y, x in enumerate(server_board[(5 * (page-1)):(5 * (page))]):
+			for y, x in server_board[(5 * (page-1)):(5 * (page))]:
 				nth_member = guild.get_member(x[0])
 				hms_score = converter.secs_to_hms(x[1])
 				if nth_member is not None:
