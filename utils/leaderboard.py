@@ -15,7 +15,9 @@ class Leaderboard(commands.Cog):
 	@commands.Cog.listener()
 	async def on_reaction_add(self, reaction, user):
 		message = reaction.message
-		if message.author == self.bot.user and user != self.bot.user:	
+		print("bye")
+		if message.author == self.bot.user and user != self.bot.user:
+			print("hi")
 			guild = message.guild
 			old_embed = message.embeds[0]
 			if old_embed.title == f"Server rank for {guild.name}":
