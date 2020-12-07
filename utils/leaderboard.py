@@ -19,7 +19,8 @@ class Leaderboard(commands.Cog):
 			guild = message.guild
 			leaderboard_embed = message.embeds[0]
 			if leaderboard_embed.title == f"Server rank for {guild.name}":
-				print(leaderboard_embed.footer)
+				page = leaderboard_embed.footer["text"].split()[1]
+				print(page)
 
 	# Commands
 	# Retrieves the leaderboard
@@ -34,7 +35,7 @@ class Leaderboard(commands.Cog):
 		pages = math.floor(len(server_board)/5)
 		if page <= pages:
 			leaderboard_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
-			leaderboard_embed.set_image(url=str(guild.icon_url))
+			leaderboard_embed.set_thumbnail(url=str(guild.icon_url))
 			leaderboard_embed.set_footer(text=f"Page {page} of {pages}")
 			for y, x in server_board[(5 * (page-1)):(5 * (page))]:
 				nth_member = guild.get_member(x[0])
