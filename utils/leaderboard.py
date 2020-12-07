@@ -21,27 +21,18 @@ class Leaderboard(commands.Cog):
 			guild = message.guild
 			old_embed = message.embeds[0]
 			if old_embed.title == f"Server rank for {guild.name}":
-				print("hee")
 				old_page = int(old_embed.footer.text.split()[1])
 				server_board = list(enumerate(database.retrieve_server_board(guild.id)))
 				pages = math.floor(len(server_board)/5)
 				new_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
 				new_embed.set_thumbnail(url=str(guild.icon_url))			
-				print(reaction)
-				print(old_page)
-				print(pages)
 				if str(reaction) == "⬅️" and old_page > 1:
-					print("hoe")
 					page = old_page - 1
-					await reaction.remove(user)
-					print("heh")
+					await message.clear_reactions()
 				elif str(reaction) == "➡️" and old_page < pages:
-					print("hoe")
 					page = old_page + 1
-					await reaction.remove(user)
-					print("heh")
+					await message.clear_reactions()
 				else:
-					print("hay")
 					return
 				new_embed.set_footer(text=f"Page {page} of {pages}")
 				print("pale")
@@ -61,7 +52,10 @@ class Leaderboard(commands.Cog):
 							inline=False	
 						)
 				await message.edit(embed=new_embed)
-
+				if page > 1:
+					await leaderboard_message.add_reaction("⬅️")
+				if page < pages:
+					await leaderboard_message.add_reaction("➡️")
 
 	# Commands
 	# Retrieves the leaderboard
