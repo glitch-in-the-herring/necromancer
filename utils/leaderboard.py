@@ -18,11 +18,11 @@ class Leaderboard(commands.Cog):
 		help="Shows the leaderboard. Still hardcoded to only show the top 10 players.",
 		brief="Shows the leaderboard. Up to 10 players may be displayed."
 	)
-	async def top(self, ctx, page:int):
+	async def top(self, ctx):
 		guild, author = ctx.guild, ctx.author
 		server_board = list(database.retrieve_server_board(guild.id))
 		leaderboard_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
-		leaderboard_embed.set_thumbnail(guild.icon_url_as(format=None, static_format="png", size=256))
+		leaderboard_embed.set_thumbnail(guild.icon_url)
 		pages = math.floor(len(server_board)/5)
 		leaderboard_embed.set_footer(text=f"Page 1 of {pages}")
 		for y, x in enumerate(server_board[0:5]):
