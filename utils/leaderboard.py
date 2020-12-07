@@ -53,9 +53,9 @@ class Leaderboard(commands.Cog):
 						)
 				await message.edit(embed=new_embed)
 				if page > 1:
-					await leaderboard_message.add_reaction("⬅️")
+					await message.add_reaction("⬅️")
 				if page < pages:
-					await leaderboard_message.add_reaction("➡️")
+					await message.add_reaction("➡️")
 
 	# Commands
 	# Retrieves the leaderboard
