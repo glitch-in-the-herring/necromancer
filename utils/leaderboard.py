@@ -15,9 +15,7 @@ class Leaderboard(commands.Cog):
 	@commands.Cog.listener()
 	async def on_reaction_add(self, reaction, user):
 		message = reaction.message
-		print("bye")
 		if message.author == self.bot.user and user != self.bot.user:
-			print("hi")
 			guild = message.guild
 			old_embed = message.embeds[0]
 			if old_embed.title == f"Server rank for {guild.name}":
@@ -35,7 +33,6 @@ class Leaderboard(commands.Cog):
 				else:
 					return
 				new_embed.set_footer(text=f"Page {page} of {pages}")
-				print("pale")
 				for y, x in server_board[(5 * (page-1)):(5 * (page))]:
 					nth_member = guild.get_member(x[0])
 					hms_score = converter.secs_to_hms(x[1])
