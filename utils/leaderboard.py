@@ -5,6 +5,7 @@ from discord.ext import commands
 from num2words import num2words
 import utils.database as database
 import utils.converter as converter
+from main import config
 
 class Leaderboard(commands.Cog):
 	def __init__(self, bot):
@@ -65,7 +66,7 @@ class Leaderboard(commands.Cog):
 		guild, author = ctx.guild, ctx.author
 		server_board = list(enumerate(database.retrieve_server_board(guild.id)))
 		pages = math.floor(len(server_board)/5)
-		if page <= pages:
+		if page <= pages and pages >= 1:
 			leaderboard_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
 			leaderboard_embed.set_thumbnail(url=str(guild.icon_url))
 			leaderboard_embed.set_footer(text=f"Page {page} of {pages}")
@@ -90,7 +91,13 @@ class Leaderboard(commands.Cog):
 			if page < pages:
 				await leaderboard_message.add_reaction("➡️")
 		else:
-			await ctx.send("Nothing to see")
+			nothing_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
+			nothing_embed.add_field(
+				name="404",
+				value="Not found",
+				inline=False	
+			)			
+			await ctx.send(embed=nothing_embed)
 
 
 	# Retrieves the personal stats
@@ -121,6 +128,14 @@ class Leaderboard(commands.Cog):
 			inline=False
 		)			
 		await ctx.send(embed=leaderboard_embed)
+
+	@rank.error
+	async def rank_error(self, ctx, error):
+		if isinstance(error, discord.ext.commands.errors.MemberNotFound) or isinstance(error, ZeroDivisionError):
+			await ctx.send("User not found.")
+		else:
+			await ctx.send(f"Unknown error occured. Please contact the bot admin (<@!{config["sysadmin_id"]}>)")
+			logging.error(error)
 
 def setup(bot):
 	bot.add_cog(Leaderboard(bot))
