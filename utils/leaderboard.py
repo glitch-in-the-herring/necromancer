@@ -132,7 +132,9 @@ class Leaderboard(commands.Cog):
 
 	@rank.error
 	async def rank_error(self, ctx, error):
-		if isinstance(error, discord.ext.commands.errors.MemberNotFound) or isinstance(error, ZeroDivisionError):
+		if isinstance(error, discord.ext.commands.errors.MemberNotFound):
+			await ctx.send("User not found in this guild.")
+		elif isinstance(error, ZeroDivisionError):
 			await ctx.send("User not found.")
 		else:
 			await ctx.send(f"Unknown error occured")
