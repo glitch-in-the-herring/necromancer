@@ -134,7 +134,7 @@ class Leaderboard(commands.Cog):
 		if isinstance(error, discord.ext.commands.errors.MemberNotFound) or isinstance(error, ZeroDivisionError):
 			await ctx.send("User not found.")
 		else:
-			await ctx.send(f"Unknown error occured. Please contact the bot admin (<@!{config["sysadmin_id"]}>)")
+			await ctx.send(f"Unknown error occured")
 			logging.error(error)
 
 def setup(bot):
