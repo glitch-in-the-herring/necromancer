@@ -67,7 +67,7 @@ class Leaderboard(commands.Cog):
 		guild, author = ctx.guild, ctx.author
 		server_board = list(enumerate(database.retrieve_server_board(guild.id)))
 		pages = math.floor(len(server_board)/5)
-		if page <= pages and pages >= 1:
+		if page <= pages and page >= 1:
 			leaderboard_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
 			leaderboard_embed.set_thumbnail(url=str(guild.icon_url))
 			leaderboard_embed.set_footer(text=f"Page {page} of {pages}")
