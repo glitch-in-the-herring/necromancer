@@ -41,7 +41,7 @@ class Leaderboard(commands.Cog):
 					if nth_member is not None:
 						new_embed.add_field(
 							name=num2words(y+1, to="ordinal_num") + " Place:",
-							value=nth_member.name + "#" + str(nth_member.discriminator) + ":" + f" {hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}",
+							value= str(nth_member) + ":" + f" {hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}",
 							inline=False	
 						)
 					else:
@@ -77,7 +77,7 @@ class Leaderboard(commands.Cog):
 				if nth_member is not None:
 					leaderboard_embed.add_field(
 						name=num2words(y+1, to="ordinal_num") + " Place:",
-						value=nth_member.name + "#" + str(nth_member.discriminator) + ":" + f" {hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}",
+						value= str(nth_member) + ":" + f" {hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}",
 						inline=False	
 					)
 				else:
@@ -117,7 +117,7 @@ class Leaderboard(commands.Cog):
 		hms_score = converter.secs_to_hms(score)
 		hms_average = converter.secs_to_hms(round(score/count))
 		rank = server_board.index((user.id, score)) + 1
-		leaderboard_embed = discord.Embed(title=num2words(rank, to="ordinal_num") + f" Place: {user.name}#{user.discriminator}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
+		leaderboard_embed = discord.Embed(title=num2words(rank, to="ordinal_num") + f" Place: {str(user)}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
 		leaderboard_embed.add_field(
 			name=":stopwatch: Score",
 			value=f"{hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02} ({count} posts)",
