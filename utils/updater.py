@@ -32,7 +32,7 @@ class Updater(commands.Cog):
 				message.created_at
 			)
 			channel = guild.get_channel(database.retrieve_channel(guild.id))
-			if channel != None and channel == message.channel:
+			if channel is not None and channel == message.channel:
 				try:
 					previous_author, previous_timestamp = database.retrieve_last_message(guild.id)
 					if previous_author != author.id:
@@ -52,7 +52,7 @@ class Updater(commands.Cog):
 	async def on_message_delete(self, message):
 		guild, author, created_at = message.guild, message.author, message.created_at
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
-		if channel != None and channel == message.channel:
+		if channel is not None and channel == message.channel:
 			await message.channel.send(f"{message.author.mention} deleted a message.")
 
 	# Commands
@@ -76,7 +76,7 @@ class Updater(commands.Cog):
 		elif isinstance(error, commands.CheckFailure):
 			await ctx.send("You do not have permissions to execute this command!")
 		else:
-			print(error)
+			await ctx.send(error)
 
 
 	# Forces the leaderboard to update
@@ -121,12 +121,13 @@ class Updater(commands.Cog):
 
 	@update.error
 	async def update_error(self, ctx, error):
-		if isinstance(error, TypeError):
+		if isinstance(error, AttributeError):
 			await ctx.send("This guild does not have a game channel!")
 		elif isinstance(error, commands.CheckFailure):
 			await ctx.send("You do not have permissions to execute this command!")
 		else:
-			print(error)
+			await ctx.send(error)
+
 
 	@commands.command(
 		name="clear",
