@@ -119,9 +119,10 @@ class Leaderboard(commands.Cog):
 		rank = server_board.index((user.id, score)) + 1
 		leaderboard_embed = discord.Embed(title=num2words(rank, to="ordinal_num") + f" Place: {str(user)}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
 		leaderboard_embed.set_thumbnail(url=str(user.avatar_url))
+		leaderboard_embed.set_footer(text=f"{count} posts")
 		leaderboard_embed.add_field(
 			name=":stopwatch: Score",
-			value=f"{hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02} ({count} posts)",
+			value=f"{hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}",
 			inline=False
 		)
 		leaderboard_embed.add_field(
