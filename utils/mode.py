@@ -1,3 +1,4 @@
+import logging
 from discord.ext import commands
 import utils.database as database
 from main import config
@@ -18,8 +19,8 @@ class Mode(commands.Cog):
 
 	@commands.command(
 		name="gm",
-		help="Changes gamemodes. Available modes are 'normal' (1) and 'quadratic' (2)",
-		brief="Changes gamemodes"
+		help="Changes gamemode. Available modes are 'normal' (1) and 'quadratic' (2)",
+		brief="Changes gamemode."
 	)
 	@is_admin()
 	async def gm(self, ctx, mode:int):
@@ -32,11 +33,13 @@ class Mode(commands.Cog):
 				database.commit()
 				await ctx.send("Gamemode has been set to normal.")
 				await channel.send("Gamemode has been set to normal.")
+				logging.info(f'GAMEMODE on server: {ctx.guild.id} to 1')
 			if mode == 2:
 				database.update_mode(guild.id, 2)
 				database.commit()
 				await ctx.send("Gamemode has been set to quadratic.")
 				await channel.send("Gamemode has been set to quadratic.")
+				logging.info(f'GAMEMODE on server: {ctx.guild.id} to 2')				
 		else:
 			await ctx.send("The current gamemode is already the same")
 

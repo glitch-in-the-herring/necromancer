@@ -37,17 +37,10 @@ class Updater(commands.Cog):
 					previous_author, previous_timestamp = database.retrieve_last_message(guild.id)
 					if previous_author != author.id:
 						score_delta = created_at - datetime.strptime(previous_timestamp, "%Y-%m-%d %H:%M:%S")
-						print(f"## Created at: {created_at}") #remove
-						print(f"## Previous timestamp: {previous_timestamp}") #remove
-						print(f"## Timedelta: {score_delta}")
 						if gamemode == 1:
-							print("##Currently playing as normal mode!##") #remove
 							score_increase = converter.delta_to_secs(score_delta)
-							print(f"##Score increase: {score_increase}") #remove
 						elif gamemode == 2:
-							print("##Currently playing as quadratic mode!##") #remove
-							score_increase = converter.delta_to_secs(score_delta) ** 2
-							print(f"##Score increase: {score_increase}") #remove							
+							score_increase = converter.delta_to_secs(score_delta) ** 2						
 						score = score_increase + database.retrieve_score(guild.id, author.id)
 						count = database.retrieve_count(guild.id, author.id) + 1
 						database.update_score(guild.id, author.id, score, count)
@@ -116,17 +109,11 @@ class Updater(commands.Cog):
 						current_timestamp, 
 						message.created_at
 					)
-					score_delta = current_timestamp - previous_timestamp
-					print(f"Current gamemode: {gamemode}") #remove	
-					print(f"##Current timestamp: {current_timestamp}") #remove
-					print(f"##Previous timestamp: {previous_timestamp}") #remove
-					print(f"## Timedelta: {score_delta}")				
+					score_delta = current_timestamp - previous_timestamp		 	
 					if gamemode == 1:
 						score_increase = converter.delta_to_secs(score_delta)
-						print(f"#Score increase: {score_increase}") #remove	
 					elif gamemode == 2:
-						score_increase = converter.delta_to_secs(score_delta) ** 2
-						print(f"#Score increase: {score_increase}") #remove		
+						score_increase = converter.delta_to_secs(score_delta) ** 2	
 					score = score_increase + database.retrieve_score(guild.id, current_author)
 					count = database.retrieve_count(guild.id, current_author) + 1
 					if current_author != self.bot.user.id:
@@ -137,7 +124,8 @@ class Updater(commands.Cog):
 							gamemode = 1
 						elif message.content == "Gamemode has been set to quadratic.":
 							gamemode = 2
-						database.update_last_message(guild.id, 0, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
+						else:
+							database.update_last_message(guild.id, 0, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 					
 		database.commit()
 		await ctx.send("Successfully updated the channel.")
@@ -162,7 +150,7 @@ class Updater(commands.Cog):
 	async def clear(self, ctx):
 		database.clear_score(ctx.guild.id)
 		await ctx.send("Deleted the guild's score")
-		logging.info(f'DELETION on server: {ctx.guild.id}')
+		logging.info(f'CLEAR on server: {ctx.guild.id}')
 
 def setup(bot):
 	bot.add_cog(Updater(bot))
