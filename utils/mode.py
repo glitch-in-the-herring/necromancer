@@ -22,7 +22,7 @@ class Mode(commands.Cog):
 		brief="Toggles between game modes"
 	)
 	@is_admin()
-	async def toggle(self, ctx, mode):
+	async def toggle(self, ctx, mode:int):
 		guild = ctx.guild
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
 		current_mode = database.retrieve_guild_mode(guild.id)
