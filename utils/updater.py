@@ -39,12 +39,15 @@ class Updater(commands.Cog):
 						score_delta = created_at - datetime.strptime(previous_timestamp, "%Y-%m-%d %H:%M:%S")
 						print(f"## Created at: {created_at}") #remove
 						print(f"## Previous timestamp: {previous_timestamp}") #remove
+						print(f"## Timedelta: {score_delta}")
 						if gamemode == 1:
 							print("##Currently playing as normal mode!##") #remove
 							score_increase = converter.delta_to_secs(score_delta)
+							print(f"##Score increase: {score_increase}") #remove
 						elif gamemode == 2:
 							print("##Currently playing as quadratic mode!##") #remove
 							score_increase = converter.delta_to_secs(score_delta) ** 2
+							print(f"##Score increase: {score_increase}") #remove							
 						score = score_increase + database.retrieve_score(guild.id, author.id)
 						count = database.retrieve_count(guild.id, author.id) + 1
 						database.update_score(guild.id, author.id, score, count)
@@ -117,6 +120,7 @@ class Updater(commands.Cog):
 					print(f"Current gamemode: {gamemode}") #remove	
 					print(f"##Current timestamp: {current_timestamp}") #remove
 					print(f"##Previous timestamp: {previous_timestamp}") #remove
+						print(f"## Timedelta: {score_delta}"):					
 					if gamemode == 1:
 						score_increase = converter.delta_to_secs(score_delta)
 						print(f"#Score increase: {score_increase}") #remove	
