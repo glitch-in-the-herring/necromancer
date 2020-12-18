@@ -21,7 +21,7 @@ class Mode(commands.Cog):
 		help="Toggles between game modes. Available modes are 'normal' (1) and 'quadratic' (2)",
 		brief="Toggles between game modes"
 	)
-	@is_admin
+	@is_admin()
 	async def toggle(self, ctx, mode):
 		guild = ctx.guild
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
