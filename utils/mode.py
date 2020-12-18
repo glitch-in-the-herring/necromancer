@@ -56,3 +56,6 @@ class Mode(commands.Cog):
 			database.commit()
 			await ctx.send("Gamemode has been set to quadratic.")
 			await channel.send("Gamemode has been set to quadratic.")
+
+def setup(bot):
+	bot.add_cog(Mode(bot))
