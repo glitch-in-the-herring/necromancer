@@ -69,6 +69,6 @@ bot = commands.Bot(command_prefix=prefix, intents=intents)
 bot.load_extension("utils.updater")
 bot.load_extension("utils.events")
 bot.load_extension("utils.leaderboard")
-bot.load_extenstion("utils.mode")
+bot.load_extension("utils.mode")
 
 bot.run(token)
