@@ -13,7 +13,6 @@ class Updater(commands.Cog):
 
 	# Checks
 	# Checks if the user invoking the command is an admin
-	# Currently hardcoded
 	def is_admin():
 		async def predicate(ctx):
 			member = ctx.author
@@ -64,7 +63,7 @@ class Updater(commands.Cog):
 	)
 	@is_admin()
 	async def setchannel(self, ctx, channel: discord.TextChannel):
-		database.update_server(ctx.guild.id, channel.id)
+		database.update_server(ctx.guild.id, channel.id, 1)
 		database.commit()
 		await ctx.send(f"Successfully set <#{channel.id}> as the necromancy channel for this server.")
 		logging.info(f'CHANNEL on server: {ctx.guild.id}, new channel: {channel.id}')

@@ -66,16 +66,6 @@ intents = discord.Intents(
 )
 bot = commands.Bot(command_prefix=prefix, intents=intents)
 
-@bot.command
-async def load(ctx, extension):
-	bot.load_extension(f"utils.{extension}")
-
-
-@bot.command
-async def unload(ctx, extension):
-	bot.unload_extension(f"utils.{extension}")
-
-
 bot.load_extension("utils.updater")
 bot.load_extension("utils.events")
 bot.load_extension("utils.leaderboard")

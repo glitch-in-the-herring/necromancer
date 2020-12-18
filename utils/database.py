@@ -8,11 +8,11 @@ def commit():
 
 
 # Adds or updates channel_id and guild_id in the guilds table
-def update_server(guild_id, channel_id):
+def update_server(guild_id, channel_id, mode):
 	c.execute(
-		"""INSERT OR REPLACE INTO guilds (guild_id, channel_id, last_author_id, last_timestamp) 
+		"""INSERT OR REPLACE INTO guilds (guild_id, channel_id, last_author_id, last_timestamp, mode) 
 		VALUES (?, ?, ?, ?)""", 
-		[guild_id, channel_id, None, None]
+		[guild_id, channel_id, None, None, mode]
 	)
 
 
@@ -32,6 +32,16 @@ def update_score(guild_id, user_id, score, count):
 		"""INSERT OR REPLACE INTO scores (guild_id, user_id, score, count) 
 		VALUES (?, ?, ?, ?)""", 
 		[guild_id, user_id, score, count]
+	)
+
+
+# Updates the gamemode of the guild
+def update_mode(guild_id, mode):
+	c.execute(
+		"""UPDATE guilds 
+		SET mode = ? 
+		WHERE guild_id = ?""", 
+		[mode, guild_id]
 	)
 
 
@@ -116,3 +126,11 @@ def retrieve_guild_scores(guild_id):
 		ORDER BY score DESC, user_id DESC""", 
 		[guild_id]
 	)
+
+def retrieve_guild_mode(guild_id):
+	return c.execute("""
+		SELECT mode 
+		FROM guilds 
+		WHERE guild_id = ?""", 
+		[guild_id, user_id]
+	).fetchone()[0]	

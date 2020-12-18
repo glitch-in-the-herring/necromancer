@@ -10,5 +10,6 @@ CREATE TABLE guilds (
 	channel_id INTEGER NOT NULL,
 	last_author_id INTEGER,
 	last_timestamp TEXT,
+	mode INTEGER NOT NULL,
 	PRIMARY KEY(guild_id, channel_id)
 );
