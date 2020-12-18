@@ -17,12 +17,12 @@ class Mode(commands.Cog):
 
 
 	@commands.command(
-		name="toggle",
-		help="Toggles between game modes. Available modes are 'normal' (1) and 'quadratic' (2)",
-		brief="Toggles between game modes"
+		name="gm",
+		help="Changes gamemodes. Available modes are 'normal' (1) and 'quadratic' (2)",
+		brief="Changes gamemodes"
 	)
 	@is_admin()
-	async def toggle(self, ctx, mode:int):
+	async def gm(self, ctx, mode:int):
 		guild = ctx.guild
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
 		current_mode = database.retrieve_guild_mode(guild.id)
@@ -33,13 +33,15 @@ class Mode(commands.Cog):
 				await ctx.send("Gamemode has been set to normal.")
 				await channel.send("Gamemode has been set to normal.")
 			if mode == 2:
-				database.update_mode(guild.id, 1)
+				database.update_mode(guild.id, 2)
 				database.commit()
-				await ctx.send("Gamemode has been set to normal.")
-				await channel.send("Gamemode has been set to normal.")
+				await ctx.send("Gamemode has been set to quadratic.")
+				await channel.send("Gamemode has been set to quadratic.")
+		else:
+			await ctx.send("The current gamemode is already the same")
 
-	@toggle.error
-	async def toggle_error(self, ctx, error):
+	@gm.error
+	async def gm_error(self, ctx, error):
 		if isinstance(error, commands.BadArgument):
 			await ctx.send("Please specify a proper game mode!")
 		elif isinstance(error, commands.CheckFailure):
