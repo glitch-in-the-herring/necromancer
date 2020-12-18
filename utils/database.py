@@ -132,5 +132,5 @@ def retrieve_guild_mode(guild_id):
 		SELECT mode 
 		FROM guilds 
 		WHERE guild_id = ?""", 
-		[guild_id, user_id]
+		[guild_id]
 	).fetchone()[0]	
