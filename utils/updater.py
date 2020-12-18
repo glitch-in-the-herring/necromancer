@@ -31,9 +31,9 @@ class Updater(commands.Cog):
 				message.created_at
 			)
 			channel = guild.get_channel(database.retrieve_channel(guild.id))
-			gamemode = database.retrieve_guild_mode(guild.id)
 			if channel is not None and channel == message.channel:
 				try:
+					gamemode = database.retrieve_guild_mode(guild.id)
 					previous_author, previous_timestamp = database.retrieve_last_message(guild.id)
 					if previous_author != author.id:
 						score_delta = created_at - datetime.strptime(previous_timestamp, "%Y-%m-%d %H:%M:%S")

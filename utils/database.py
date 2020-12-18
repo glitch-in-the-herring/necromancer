@@ -128,8 +128,8 @@ def retrieve_guild_scores(guild_id):
 	)
 
 def retrieve_guild_mode(guild_id):
-	return c.execute("""
-		SELECT mode 
+	return c.execute(
+		"""SELECT mode 
 		FROM guilds 
 		WHERE guild_id = ?""", 
 		[guild_id]
