@@ -1,4 +1,4 @@
-from discord.ext import Commands
+from discord.ext import commands
 import utils.database as database
 from main import config
 
@@ -16,46 +16,36 @@ class Mode(commands.Cog):
 		return commands.check(predicate)
 
 
-	@bot.group(
+	@commands.command(
 		name="toggle",
-		short_doc="Toggles between game modes. Available modes are 'normal' and 'quadratic'",
+		help="Toggles between game modes. Available modes are 'normal' (1) and 'quadratic' (2)",
+		brief="Toggles between game modes"
 	)
 	@is_admin
-	async def toggle(self, ctx):
-		if ctx.invoked_subcommand is None:
-			await ctx.send('Invalid toggle')
-
-
-	@toggle.command(
-		name="normal",
-		help="Changes the score counting mode to normal. Scores are calculated using linear differences of timestamps.",
-		brief="Changes the score counting mode to normal."
-	)		
-	async def normal(self, ctx):
+	async def toggle(self, ctx, mode):
 		guild = ctx.guild
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
-		mode = database.retrieve_guild_mode(guild.id)
-		if mode != 1:
-			database.update_mode(guild.id, 1)
-			database.commit()
-			await ctx.send("Gamemode has been set to normal.")
-			await channel.send("Gamemode has been set to normal.")
+		current_mode = database.retrieve_guild_mode(guild.id)
+		if current_mode != mode:
+			if mode == 1:
+				database.update_mode(guild.id, 1)
+				database.commit()
+				await ctx.send("Gamemode has been set to normal.")
+				await channel.send("Gamemode has been set to normal.")
+			if mode == 2:
+				database.update_mode(guild.id, 1)
+				database.commit()
+				await ctx.send("Gamemode has been set to normal.")
+				await channel.send("Gamemode has been set to normal.")
 
-
-	@toggle.command(
-		name="quadratic",
-		help="Changes the score counting mode to quadratic. Scores are calculated based on the square of the difference of timesamps.",
-		brief="Changes the score counting mode to quadratic."
-	)		
-	async def quadratic(self, ctx):
-		guild = ctx.guild
-		channel = guild.get_channel(database.retrieve_channel(guild.id))
-		mode = database.retrieve_guild_mode(guild.id)
-		if mode != 2:
-			database.update_mode(guild.id, 2)
-			database.commit()
-			await ctx.send("Gamemode has been set to quadratic.")
-			await channel.send("Gamemode has been set to quadratic.")
+	@toggle.error
+	async def toggle_error(self, ctx, error):
+		if isinstance(error, commands.BadArgument):
+			await ctx.send("Please specify a proper game mode!")
+		elif isinstance(error, commands.CheckFailure):
+			await ctx.send("You do not have permissions to execute this command!")
+		else:
+			await ctx.send(error)
 
 def setup(bot):
 	bot.add_cog(Mode(bot))
