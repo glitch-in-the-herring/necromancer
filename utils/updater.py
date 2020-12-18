@@ -120,7 +120,7 @@ class Updater(commands.Cog):
 					print(f"Current gamemode: {gamemode}") #remove	
 					print(f"##Current timestamp: {current_timestamp}") #remove
 					print(f"##Previous timestamp: {previous_timestamp}") #remove
-					print(f"## Timedelta: {score_delta}"):					
+					print(f"## Timedelta: {score_delta}")				
 					if gamemode == 1:
 						score_increase = converter.delta_to_secs(score_delta)
 						print(f"#Score increase: {score_increase}") #remove	
