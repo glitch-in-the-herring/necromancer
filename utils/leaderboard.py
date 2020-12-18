@@ -66,7 +66,7 @@ class Leaderboard(commands.Cog):
 	async def top(self, ctx, page:int=1):
 		guild, author = ctx.guild, ctx.author
 		server_board = list(enumerate(database.retrieve_server_board(guild.id)))
-		if len(server_board)/5 < 0:
+		if len(server_board)/5 < 1:
 			pages = 1
 		else:
 			pages = math.floor(len(server_board)/5)
