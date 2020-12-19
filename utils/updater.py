@@ -142,7 +142,7 @@ class Updater(commands.Cog):
 		toc = timeit.default_timer()
 		success_embed = discord.Embed(
 			title="Success",
-			timestamp=datetime.now(timezone.utc),
+			timestamp=datetime.now(),
 			color=discord.Colour(0x100000)
 		)
 		success_embed.add_field(
