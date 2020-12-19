@@ -147,7 +147,7 @@ class Updater(commands.Cog):
 		)
 		success_embed.add_field(
 			name="Successfully updated the score database",
-			value=f"Performed {n} database queries in {toc-tic} seconds",
+			value=f"Performed {database_queries} database queries in {toc-tic} seconds",
 			inline=False
 		)
 		await ctx.send(embed=success_embed)
