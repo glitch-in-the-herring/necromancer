@@ -104,7 +104,7 @@ class Updater(commands.Cog):
 				database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 			else:
 				previous_author, current_author = current_author, message.author.id
-				if previous_author != current_author:
+				if previous_author != current_author and current_author != self.bot.user.id:
 					previous_timestamp, current_timestamp = (
 						current_timestamp, 
 						message.created_at
@@ -118,20 +118,20 @@ class Updater(commands.Cog):
 						print("score calculated using quadratic mode") #remove
 					score = score_increase + database.retrieve_score(guild.id, current_author)
 					count = database.retrieve_count(guild.id, current_author) + 1
-					if current_author != self.bot.user.id:
-						database.update_score(guild.id, current_author, score, count)
-						database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
+					database.update_score(guild.id, current_author, score, count)
+					database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
+				else:
+					print("!!!!!!!while updating i found a message by me!") #remove
+					print(message.id)
+					if message.content == "Gamemode has been set to normal.":
+						gamemode = 1
+						print("!!!!!!!while updating i have changed the gamemode to normal!!") #remove
+					elif message.content == "Gamemode has been set to quadratic.":
+						gamemode = 2
+						print("!!!!!!!while updating i have changed the gamemode to quadratic!!") #remove
 					else:
-						print("!!!!!!!while updating i found a message by me!") #remove
-						if message.content == "Gamemode has been set to normal.":
-							gamemode = 1
-							print("!!!!!!!while updating i have changed the gamemode to normal!!") #remove
-						elif message.content == "Gamemode has been set to quadratic.":
-							gamemode = 2
-							print("!!!!!!!while updating i have changed the gamemode to quadratic!!") #remove
-						else:
-							print("!!!!!!!while updating i have found a naughty user who deleted their message!!!") #remove
-							database.update_last_message(guild.id, 0, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
+						print("!!!!!!!while updating i have found a naughty user who deleted their message!!!") #remove
+						database.update_last_message(guild.id, 0, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 					
 		database.commit()
 		await ctx.send("Successfully updated the channel.")
