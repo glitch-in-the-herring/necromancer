@@ -24,7 +24,11 @@ class Leaderboard(commands.Cog):
 				old_page = int(old_embed.footer.text.split()[1])
 				server_board = list(enumerate(database.retrieve_server_board(guild.id)))
 				pages = math.floor(len(server_board)/5)
-				new_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
+				new_embed = discord.Embed(
+					title=f"Server rank for {guild.name}", 
+					timestamp=datetime.now(timezone.utc), 
+					color=discord.Colour(0x100000)
+				)
 				new_embed.set_thumbnail(url=str(guild.icon_url))			
 				if str(reaction) == "⬅️" and old_page > 1:
 					page = old_page - 1
@@ -71,7 +75,11 @@ class Leaderboard(commands.Cog):
 		else:
 			pages = math.floor(len(server_board)/5)
 		if page <= pages and page >= 1:
-			leaderboard_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
+			leaderboard_embed = discord.Embed(
+				title=f"Server rank for {guild.name}", 
+				timestamp=datetime.now(timezone.utc), 
+				color=discord.Colour(0x100000)
+			)
 			leaderboard_embed.set_thumbnail(url=str(guild.icon_url))
 			leaderboard_embed.set_footer(text=f"Page {page} of {pages}")
 			for y, x in server_board[(5 * (page-1)):(5 * (page))]:
@@ -95,7 +103,11 @@ class Leaderboard(commands.Cog):
 			if page < pages:
 				await leaderboard_message.add_reaction("➡️")
 		else:
-			nothing_embed = discord.Embed(title=f"Server rank for {guild.name}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
+			nothing_embed = discord.Embed(
+				title=f"Server rank for {guild.name}", 
+				timestamp=datetime.now(timezone.utc), 
+				color=discord.Colour(0x100000)
+			)
 			nothing_embed.add_field(
 				name="404",
 				value="Not found",
@@ -120,7 +132,11 @@ class Leaderboard(commands.Cog):
 		hms_score = converter.secs_to_hms(score)
 		hms_average = converter.secs_to_hms(round(score/count))
 		rank = server_board.index((user.id, score)) + 1
-		leaderboard_embed = discord.Embed(title=num2words(rank, to="ordinal_num") + f" Place: {str(user)}", timestamp=datetime.now(timezone.utc), color=discord.Colour(0x100000))
+		leaderboard_embed = discord.Embed(
+			title=num2words(rank, to="ordinal_num") + f" Place: {str(user)}", 
+			timestamp=datetime.now(timezone.utc), 
+			color=discord.Colour(0x100000)
+		)
 		leaderboard_embed.set_thumbnail(url=str(user.avatar_url))
 		leaderboard_embed.set_footer(text=f"{count} posts")
 		leaderboard_embed.add_field(
