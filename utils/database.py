@@ -11,7 +11,7 @@ def commit():
 def update_server(guild_id, channel_id, mode, counting):
 	c.execute(
 		"""INSERT OR REPLACE INTO guilds (guild_id, channel_id, last_author_id, last_timestamp, mode, counting) 
-		VALUES (?, ?, ?, ?, ?)""", 
+		VALUES (?, ?, ?, ?, ?, ?)""", 
 		[guild_id, channel_id, None, None, mode, counting]
 	)
 
