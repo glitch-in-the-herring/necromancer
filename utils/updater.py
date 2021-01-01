@@ -110,10 +110,15 @@ class Updater(commands.Cog):
 						current_timestamp, 
 						message.created_at
 					)
-					score_delta = current_timestamp - previous_timestamp		 	
-					if gamemode == 1 or counting == 1:
+					score_delta = current_timestamp - previous_timestamp
+					if counting == 0: 	
+						if gamemode == 1:
+							score_increase = converter.delta_to_secs(score_delta)
+						elif gamemode == 2:
+							score_increase = converter.delta_to_secs(score_delta) ** 2
+					elif counting == 1:
 						score_increase = converter.delta_to_secs(score_delta)
-					elif gamemode == 2 or counting == 1:
+					elif counting == 2:
 						score_increase = converter.delta_to_secs(score_delta) ** 2
 					score = score_increase + database.retrieve_score(guild.id, current_author)
 					count = database.retrieve_count(guild.id, current_author) + 1
