@@ -65,10 +65,10 @@ class Mode(commands.Cog):
 			database.update_counting(guild.id, 0)
 			await ctx.send("Counting set to adaptive")
 		elif mode == 1:
-			database.update_counting(guild.id, 0)
+			database.update_counting(guild.id, 1)
 			await ctx.send("Counting set to normal only")
 		elif mode == 2:
-			database.update_counting(guild.id, 0)
+			database.update_counting(guild.id, 2)
 			await ctx.send("Counting set to quadratic only")
 		else:
 			await ctx.send("Please specify a proper counting mode!")			
