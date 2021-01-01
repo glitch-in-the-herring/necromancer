@@ -15,7 +15,7 @@ class Mode(commands.Cog):
 		async def predicate(ctx):
 			member = ctx.author
 			permission = discord.Permissions()
-			return member.id in [int(config["sysadmin_id"])] or member.guild_permissions >= permission.manage_channels
+			return member.id in [int(config["sysadmin_id"])] or member.guild_permissions.manage_channels
 		return commands.check(predicate)
 
 
