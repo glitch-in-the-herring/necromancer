@@ -52,5 +52,35 @@ class Mode(commands.Cog):
 		else:
 			await ctx.send(error)
 
+
+	@commands.command(
+		name="cm",
+		help="Changes the counting mode used when updating the score table. 0 means that the scores are counted based on whatever gamemode was used at the time of posting. 1 means that the scores are counted using normal counting only. 2 means that the scores are counted using the quadratic mode only",
+		brief="Changes the counting mode."
+	)
+	@is_admin()
+	async def cm(self, ctx, mode:int = 0):
+		guild = ctx.guild
+		if mode == 0:
+			database.update_counting(guild.id, 0)
+			await ctx.send("Counting set to adaptive")
+		elif mode == 1:
+			database.update_counting(guild.id, 0)
+			await ctx.send("Counting set to normal only")
+		elif mode == 2:
+			database.update_counting(guild.id, 0)
+			await ctx.send("Counting set to quadratic only")
+		else:
+			await ctx.send("Please specify a proper counting mode!")			
+
+	@cm.error
+	async def gm_error(self, ctx, error):
+		if isinstance(error, commands.BadArgument):
+			await ctx.send("Please specify a proper counting mode!")
+		elif isinstance(error, commands.CheckFailure):
+			await ctx.send("You do not have permissions to execute this command!")
+		else:
+			await ctx.send(error)
+
 def setup(bot):
 	bot.add_cog(Mode(bot))

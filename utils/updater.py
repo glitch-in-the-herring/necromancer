@@ -67,8 +67,8 @@ class Updater(commands.Cog):
 		brief="Set the server's TNG channel."
 	)
 	@is_admin()
-	async def setchannel(self, ctx, channel: discord.TextChannel):
-		database.update_server(ctx.guild.id, channel.id, 1)
+	async def setchannel(self, ctx, channel:discord.TextChannel):
+		database.update_server(ctx.guild.id, channel.id, 1, 0)
 		database.commit()
 		await ctx.send(f"Successfully set <#{channel.id}> as the necromancy channel for this server.")
 		logging.info(f'CHANNEL on server: {ctx.guild.id}, new channel: {channel.id}')
@@ -93,23 +93,16 @@ class Updater(commands.Cog):
 	async def update(self, ctx):
 		guild = ctx.guild
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
-		first, gamemode, database_queries = (
-			True, 
-			1, 
-			0
-		)
+		first, gamemode = True, 1
+		counting = database.retrieve_guild_counting(guild.id)
 		database.clear_score(guild.id)
-		database_queries += 1
-		tic = timeit.default_timer()
 		async for message in channel.history(limit=None, oldest_first=True):
 			if first:
 				first = False
 				current_timestamp = message.created_at
 				current_author = message.author.id
 				database.update_score(guild.id, current_author, 0, 1)
-				database_queries += 1
 				database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
-				database_queries += 1
 			else:
 				previous_author, current_author = current_author, message.author.id
 				if previous_author != current_author and current_author != self.bot.user.id:
@@ -118,39 +111,24 @@ class Updater(commands.Cog):
 						message.created_at
 					)
 					score_delta = current_timestamp - previous_timestamp		 	
-					if gamemode == 1:
+					if gamemode == 1 or counting == 1:
 						score_increase = converter.delta_to_secs(score_delta)
-					elif gamemode == 2:
+					elif gamemode == 2 or counting == 1:
 						score_increase = converter.delta_to_secs(score_delta) ** 2
 					score = score_increase + database.retrieve_score(guild.id, current_author)
 					count = database.retrieve_count(guild.id, current_author) + 1
 					database.update_score(guild.id, current_author, score, count)
-					database_queries += 1
 					database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
-					database_queries += 1
 				elif current_author == self.bot.user.id:
-					if message.content == "Gamemode has been set to normal.":
+					if message.content == "Gamemode has been set to normal." and counting == 0:
 						gamemode = 1
-					elif message.content == "Gamemode has been set to quadratic.":
+					elif message.content == "Gamemode has been set to quadratic." and counting == 0:
 						gamemode = 2
 					else:
 						database.update_last_message(guild.id, 0, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
-						database_queries += 1
 
 		database.commit()
-		database_queries += 1
-		toc = timeit.default_timer()
-		success_embed = discord.Embed(
-			title="Success",
-			timestamp=datetime.now(),
-			color=discord.Colour(0x100000)
-		)
-		success_embed.add_field(
-			name="Successfully updated the score database",
-			value=f"Performed {database_queries} database queries in {toc-tic} seconds",
-			inline=False
-		)
-		await ctx.send(embed=success_embed)
+		await ctx.send("Done")
 		logging.info(f'UPDATE on server: {guild.id}')
 
 	@update.error
