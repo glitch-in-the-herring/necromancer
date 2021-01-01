@@ -17,8 +17,8 @@ class Updater(commands.Cog):
 	def is_admin():
 		async def predicate(ctx):
 			member = ctx.author
-			return member.id in [int(config["sysadmin_id"])]	
-		return commands.check(predicate)
+			permission = discord.Permissions()
+		return member.id in [int(config["sysadmin_id"])] or member.guild_permissions == permission.manage_channels
 
 
 	# Listeners
@@ -96,7 +96,6 @@ class Updater(commands.Cog):
 		first, gamemode = True, 1
 		counting = database.retrieve_guild_counting(guild.id)
 		database.clear_score(guild.id)
-		print(f"Counting: {counting}")
 		async for message in channel.history(limit=None, oldest_first=True):
 			if first:
 				first = False
@@ -105,7 +104,6 @@ class Updater(commands.Cog):
 				database.update_score(guild.id, current_author, 0, 1)
 				database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 			else:
-				print(f"Counting: {counting}")
 				previous_author, current_author = current_author, message.author.id
 				if previous_author != current_author and current_author != self.bot.user.id:
 					previous_timestamp, current_timestamp = (
@@ -118,13 +116,10 @@ class Updater(commands.Cog):
 							score_increase = converter.delta_to_secs(score_delta)
 						elif gamemode == 2:
 							score_increase = converter.delta_to_secs(score_delta) ** 2
-						print("Counting: adaptively")
 					elif counting == 1:
 						score_increase = converter.delta_to_secs(score_delta)
-						print("Counting: normally")
 					elif counting == 2:
 						score_increase = converter.delta_to_secs(score_delta) ** 2
-						print("Counting: quadraticallyI")
 					score = score_increase + database.retrieve_score(guild.id, current_author)
 					count = database.retrieve_count(guild.id, current_author) + 1
 					database.update_score(guild.id, current_author, score, count)

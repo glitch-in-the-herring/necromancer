@@ -13,7 +13,8 @@ class Mode(commands.Cog):
 	def is_admin():
 		async def predicate(ctx):
 			member = ctx.author
-			return member.id in [int(config["sysadmin_id"])]	
+			permission = discord.Permissions()
+			return member.id in [int(config["sysadmin_id"])] or member.guild_permissions == permission.manage_channels
 		return commands.check(predicate)
 
 
