@@ -1,4 +1,5 @@
 import logging
+import discord
 from discord.ext import commands
 import utils.database as database
 from main import config
