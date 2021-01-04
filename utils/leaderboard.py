@@ -23,7 +23,7 @@ class Leaderboard(commands.Cog):
 			if old_embed.title == f"Server rank for {guild.name}":
 				old_page = int(old_embed.footer.text.split()[1])
 				server_board = list(enumerate(database.retrieve_server_board(guild.id)))
-				pages = math.floor(len(server_board)/5)
+				pages = math.ceil(len(server_board)/5)
 				new_embed = discord.Embed(
 					title=f"Server rank for {guild.name}", 
 					timestamp=datetime.now(timezone.utc), 
@@ -50,7 +50,7 @@ class Leaderboard(commands.Cog):
 						)
 					else:
 						new_embed.add_field(
-							name=num2words(i+1, to="ordinal_num") + " Place:",
+							name=num2words(y+1, to="ordinal_num") + " Place:",
 							value="User not found" + ":" + f" {hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}",
 							inline=False	
 						)
@@ -73,7 +73,7 @@ class Leaderboard(commands.Cog):
 		if len(server_board)/5 < 1:
 			pages = 1
 		else:
-			pages = math.floor(len(server_board)/5)
+			pages = math.ceil(len(server_board)/5)
 		if page <= pages and page >= 1:
 			leaderboard_embed = discord.Embed(
 				title=f"Server rank for {guild.name}", 
@@ -93,7 +93,7 @@ class Leaderboard(commands.Cog):
 					)
 				else:
 					leaderboard_embed.add_field(
-						name=num2words(i+1, to="ordinal_num") + " Place:",
+						name=num2words(y+1, to="ordinal_num") + " Place:",
 						value="User not found" + ":" + f" {hms_score[0]:02}:{hms_score[1]:02}:{hms_score[2]:02}",
 						inline=False	
 					)
