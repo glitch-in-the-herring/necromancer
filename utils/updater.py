@@ -132,6 +132,7 @@ class Updater(commands.Cog):
 						gamemode = 2
 					elif message.content.startswith("Timer has been reset to zero."):
 						current_timestamp = message.created_at
+						current_author = previous_author
 						database.update_last_message(guild.id, previous_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 					else:
 						database.update_last_message(guild.id, 0, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
