@@ -168,7 +168,7 @@ class Updater(commands.Cog):
 		brief="Deletes messages."
 	)
 	@is_admin()
-	async def clear(self, ctx, count:int, reason:str):
+	async def purge(self, ctx, count:int, reason:str):
 		guild = ctx.guild
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
 		await channel.purge(limit=count)
