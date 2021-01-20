@@ -12,5 +12,5 @@ CREATE TABLE guilds (
 	last_timestamp TEXT,
 	mode INTEGER NOT NULL,
 	counting INTEGER NOT NULL,
-	PRIMARY KEY(guild_id, channel_id)
+	PRIMARY KEY(guild_id)
 );
