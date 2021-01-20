@@ -87,7 +87,7 @@ class Updater(commands.Cog):
 	# Forces the leaderboard to update
 	@commands.command(
 		name="update",
-		help="Forces the bot to update the TNG leaderboard. Should always be after a bot restart.",
+		help="Forces the bot to update the leaderboard. Should always be done after a bot restart.",
 		brief="Forces the leaderbard to update."
 	)
 	@is_admin()
@@ -130,6 +130,9 @@ class Updater(commands.Cog):
 						gamemode = 1
 					elif message.content == "Gamemode has been set to quadratic." and counting == 0:
 						gamemode = 2
+					elif message.content == "Timer has been reset to zero.":
+						current_timestamp = message.created_at
+						database.update_last_message(guild.id, 0, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 					else:
 						database.update_last_message(guild.id, 0, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 
@@ -157,6 +160,21 @@ class Updater(commands.Cog):
 		database.clear_score(ctx.guild.id)
 		await ctx.send("Deleted the guild's score")
 		logging.info(f'CLEAR on server: {ctx.guild.id}')
+
+
+	@commands.command(
+		name="purge",
+		help="Deletes messages up to some point in the game channel.",
+		brief="Deletes messages."
+	)
+	@is_admin()
+	async def clear(self, ctx, count:int):
+		guild = ctx.guild
+		channel = guild.get_channel(database.retrieve_channel(guild.id))
+		await channel.purge(limit=count)
+		await channel.send("Timer has been reset to zero.")
+		logging.info(f'PURGE on server: {ctx.guild.id}, count: {count}')		
+
 
 def setup(bot):
 	bot.add_cog(Updater(bot))
