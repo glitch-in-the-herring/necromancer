@@ -130,7 +130,7 @@ class Updater(commands.Cog):
 						gamemode = 1
 					elif message.content == "Gamemode has been set to quadratic." and counting == 0:
 						gamemode = 2
-					elif message.content == "Timer has been reset to zero.":
+					elif message.content.startswith("Timer has been reset to zero."):
 						current_timestamp = message.created_at
 						database.update_last_message(guild.id, 0, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 					else:
@@ -168,12 +168,12 @@ class Updater(commands.Cog):
 		brief="Deletes messages."
 	)
 	@is_admin()
-	async def clear(self, ctx, count:int):
+	async def clear(self, ctx, count:int, reason:str):
 		guild = ctx.guild
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
 		await channel.purge(limit=count)
-		await channel.send("Timer has been reset to zero.")
-		logging.info(f'PURGE on server: {ctx.guild.id}, count: {count}')		
+		await channel.send(f"Timer has been reset to zero. Reason: {reason}")
+		logging.info(f'PURGE on server: {ctx.guild.id}, count: {count}, reason: {reason}')		
 
 
 def setup(bot):
