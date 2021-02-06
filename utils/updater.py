@@ -165,11 +165,19 @@ class Updater(commands.Cog):
 		logging.info(f'CLEAR on server: {ctx.guild.id}')
 
 
-	@commands.command
+	@commands.command(
+		name="test1",
+		help="Deletes the entire scoreboard in a server. Useful for diagnosing errors.",
+		brief="Deletes the entire scoreboard."
+	)
 	async def test1(self, ctx):
 		await ctx.send("This beans")
 
-	@commands.command
+	@commands.command(
+		name="test2",
+		help="Deletes the entire scoreboard in a server. Useful for diagnosing errors.",
+		brief="Deletes the entire scoreboard."
+	)
 	async def test2(self, ctx):
 		test1(self, ctx)
 		await ctx.send("thos beans")
