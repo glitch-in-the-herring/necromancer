@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import timeit
 from datetime import datetime
@@ -26,7 +27,7 @@ class Updater(commands.Cog):
 	# Listens for new messages in the game channel
 	@commands.Cog.listener()
 	async def on_message(self, message):
-		if message.author != self.bot.user:
+		if not message.author.bot:
 			guild, author, created_at = (
 				message.guild, 
 				message.author, 
@@ -106,7 +107,8 @@ class Updater(commands.Cog):
 				database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 			else:
 				previous_author, current_author = current_author, message.author.id
-				if previous_author != current_author and current_author != self.bot.user.id:
+				current_author_is_bot = self.bot.get_member(current_author).bot
+				if previous_author != current_author and current_author != self.bot.user.id and not current_author_is_bot:
 					previous_timestamp, current_timestamp = (
 						current_timestamp, 
 						message.created_at
@@ -163,6 +165,15 @@ class Updater(commands.Cog):
 		logging.info(f'CLEAR on server: {ctx.guild.id}')
 
 
+	@commands.command
+	async def test1(self, ctx):
+		await ctx.send("This beans")
+
+	@commands.command
+	async def test2(self, ctx):
+		test1(self, ctx)
+		await ctx.send("thos beans")
+
 	@commands.command(
 		name="purge",
 		help="Deletes messages up to some point in the game channel.",
@@ -174,7 +185,21 @@ class Updater(commands.Cog):
 		channel = guild.get_channel(database.retrieve_channel(guild.id))
 		await channel.purge(limit=count)
 		await channel.send(f"Timer has been reset to zero. Reason: {reason}")
-		logging.info(f'PURGE on server: {ctx.guild.id}, count: {count}, reason: {reason}')		
+		logging.info(f'PURGE on server: {ctx.guild.id}, count: {count}, reason: {reason}')
+
+
+	@commands.command(
+		name="purgeall",
+		help="Deletes all the messages in the game channel.",
+		brief="Deletes everything it touches."
+	)
+	@is_admin()
+	async def purgeall(self, ctx, reason:str):
+		guild = ctx.guild
+		channel = guild.get_channel(database.retrieve_channel(guild.id))
+		await channel.purge()
+		await channel.send(f"Timer has been reset to zero. Reason: {reason}")
+		logging.info(f'PURGE on server: {ctx.guild.id}, reason: {reason}')					
 
 
 def setup(bot):
