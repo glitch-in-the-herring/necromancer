@@ -179,7 +179,7 @@ class Updater(commands.Cog):
 		brief="Deletes the entire scoreboard."
 	)
 	async def test2(self, ctx):
-		test1(self, ctx)
+		self.test1(self, ctx)
 		await ctx.send("thos beans")
 
 	@commands.command(
