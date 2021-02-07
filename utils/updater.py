@@ -107,7 +107,7 @@ class Updater(commands.Cog):
 				database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 			else:
 				previous_author, current_author = current_author, message.author.id
-				current_author_is_bot = self.bot.get_member(current_author).bot
+				current_author_is_bot = self.bot.fetch_member(current_author).bot
 				if previous_author != current_author and current_author != self.bot.user.id and not current_author_is_bot:
 					previous_timestamp, current_timestamp = (
 						current_timestamp, 
@@ -163,24 +163,6 @@ class Updater(commands.Cog):
 		database.clear_score(ctx.guild.id)
 		await ctx.send("Deleted the guild's score")
 		logging.info(f'CLEAR on server: {ctx.guild.id}')
-
-
-	@commands.command(
-		name="test1",
-		help="Deletes the entire scoreboard in a server. Useful for diagnosing errors.",
-		brief="Deletes the entire scoreboard."
-	)
-	async def test1(self, ctx):
-		await ctx.send("This beans")
-
-	@commands.command(
-		name="test2",
-		help="Deletes the entire scoreboard in a server. Useful for diagnosing errors.",
-		brief="Deletes the entire scoreboard."
-	)
-	async def test2(self, ctx):
-		await self.test1(ctx)
-		await ctx.send("thos beans")
 
 	@commands.command(
 		name="purge",
