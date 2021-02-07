@@ -27,7 +27,7 @@ class Updater(commands.Cog):
 	# Listens for new messages in the game channel
 	@commands.Cog.listener()
 	async def on_message(self, message):
-		if not message.author.bot:
+		if message.author != self.bot.user:
 			guild, author, created_at = (
 				message.guild, 
 				message.author, 
@@ -107,9 +107,7 @@ class Updater(commands.Cog):
 				database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 			else:
 				previous_author, current_author = current_author, message.author.id
-				current_author_is = await self.bot.fetch_user(current_author)
-				is_bot = current_author_is.bot
-				if previous_author != current_author and current_author != self.bot.user.id and not is_bot:
+				if previous_author != current_author and current_author != self.bot.user.id:
 					previous_timestamp, current_timestamp = (
 						current_timestamp, 
 						message.created_at
