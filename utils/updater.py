@@ -107,8 +107,9 @@ class Updater(commands.Cog):
 				database.update_last_message(guild.id, current_author, current_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
 			else:
 				previous_author, current_author = current_author, message.author.id
-				await current_author_is_bot = self.bot.fetch_user(current_author).bot
-				if previous_author != current_author and current_author != self.bot.user.id and not current_author_is_bot:
+				current_author_is = await self.bot.fetch_user(current_author)
+				is_bot = current_author_is.bot
+				if previous_author != current_author and current_author != self.bot.user.id and not is_bot:
 					previous_timestamp, current_timestamp = (
 						current_timestamp, 
 						message.created_at
