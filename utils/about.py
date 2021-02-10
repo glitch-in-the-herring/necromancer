@@ -14,6 +14,7 @@ class About(commands.Cog):
 			colour=discord.Colour(0xdad7a0), 
 			description="Developed by red herring#5078. [check out the source code](https://github.com/glitch-in-the-herring/necromancer)"
 		)
+		await ctx.send(embed=embed)
 
 def setup(bot):
 	bot.add_cog(About(bot))
