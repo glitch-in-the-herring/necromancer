@@ -70,5 +70,6 @@ bot.load_extension("utils.updater")
 bot.load_extension("utils.events")
 bot.load_extension("utils.leaderboard")
 bot.load_extension("utils.mode")
+bot.load_extension("utils.about")
 
 bot.run(token)
