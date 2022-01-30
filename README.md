@@ -1,8 +1,12 @@
 # Necromancer
 A discord bot that allows you to play the classic forum board game of "Thread Necromancy"
 
-## NOTICE
-As Discord.py is no longer maintained, I will archive this repository. The bot works fine as-is, to my knowledge. Should there be any bugs or errors, I will fix them in the next iteration of The Necromancer, should there be a next iteration.
+~~## NOTICE (Sep 7, 2021)
+As Discord.py is no longer maintained, I will archive this repository. The bot works fine as-is, to my knowledge. Should there be any bugs or errors, I will fix them in the next iteration of The Necromancer, should there be a next iteration.~~
+
+The above notice is no longer valid as of Jan 30, 2022, and is superseded by the following notice
+## NOTICE (Jan 30, 2022)
+Due to a number of new bugs found while testing the bot, this repository has been unarchived, and the current plan is to migrate the bot to a newer fork of discord.py.
 
 ## Setup
 1. Go and [download python](https://python.org), if you haven't already. Make sure you're using Python 3.7 and up  
